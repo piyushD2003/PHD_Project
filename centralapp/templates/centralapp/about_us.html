@@ -1,0 +1,34 @@
+{% extends 'centralapp/base.html' %}
+{% load static %}
+{% block body %}
+<div class="about_us_headline text-center" data-aos="fade-up" data-aos-duration="2000">
+    <h1 class="display">About</h1>
+    <p class="p_display">
+        Providing a hassle-free environment to manage your health records.<br><br>
+        We at Medi-Connect believe that maintaining health records should be as simple as clicking a button<br>
+    </p>
+    <p class="p_display" style="font-size: 1.5em; color: #30475e; font-weight: bold;">
+        Medi-Connect lets you control your health information securely, in one place.
+    </p>
+</div>
+<div class="container-fluid">
+    <div class="main_container row" data-aos="fade-down" data-aos-duration="1500">
+        <div class="col-lg-5 col-md-6 col-sm-12 mb-4" data-aos="fade-left" data-aos-duration="1000">
+            <img class="bhu_image img-fluid" src="{% static 'centralapp/Images/bhu.jpeg' %}" alt="BHU Image">
+        </div>
+        <div class="col-lg-7 col-md-6 col-sm-12 paragraph" data-aos="fade-right" data-aos-duration="1000">
+            <p>We are a group of enthusiastic sophomores studying at IIT(BHU), pursuing Mathematics and Computing as our major field of study. We aim to provide a very user-friendly platform to manage one's medical records.</p>
+        </div>
+    </div>
+    <div class="text-center">
+        <h1 class="display" data-aos="fade-down" data-aos-duration="1000">Our Team</h1>
+        <div class="team" data-aos="fade-down" data-aos-duration="1200">
+            <h2>The Frontend Team</h2>
+            <ul class="list-unstyled">
+                <li><a href="#">Vinita Patil</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% comment %} <div class="parallax"></div> {% endcomment %}
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-check-circle"></i> Confirm Donation Acceptance
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+                    <h5 class="mb-0">Match Confirmation</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-4">Review Organ Match Details</h5>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card" style="border: 1px solid #ddd;">
+                                <div class="card-header" style="background: #f8f9fa;">
+                                    <h6 class="mb-0"><i class="fas fa-donate"></i> Donation Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Organ Type:</strong> {{ donation.organ_type }}</p>
+                                    <p><strong>Blood Type:</strong> {{ donation.blood_type|default:"Not specified" }}</p>
+                                    <p><strong>Donor Age:</strong> {{ donation.age_at_donation }}</p>
+                                    <p><strong>Status:</strong> <span class="badge badge-success">Available</span></p>
+                                    <p><strong>Health Condition:</strong><br>
+                                        <small>{{ donation.health_condition|truncatewords:30 }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card" style="border: 1px solid #ddd;">
+                                <div class="card-header" style="background: #f8f9fa;">
+                                    <h6 class="mb-0"><i class="fas fa-hands-helping"></i> Your Request</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Organ Type:</strong> {{ organ_request.organ_type }}</p>
+                                    <p><strong>Blood Type:</strong> {{ organ_request.blood_type|default:"Not specified" }}</p>
+                                    <p><strong>Your Age:</strong> {{ organ_request.age_at_request }}</p>
+                                    <p><strong>Urgency:</strong> <span class="badge badge-{{ organ_request.urgency }}">{{ organ_request.get_urgency_display }}</span></p>
+                                    <p><strong>Medical Condition:</strong><br>
+                                        <small>{{ organ_request.medical_condition|truncatewords:30 }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Next Steps:</strong>
+                        <ol class="mb-0 mt-2">
+                            <li>This match will be submitted for doctor approval</li>
+                            <li>A qualified medical professional will review the compatibility</li>
+                            <li>Once approved, the organ transplant procedure will be scheduled</li>
+                        </ol>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg btn-block" style="margin-bottom: 10px; padding: 12px;">
+                            <i class="fas fa-check"></i> Accept This Donation
+                        </button>
+                        <a href="{% url 'organ_donation:my_requests' %}" class="btn btn-secondary btn-block" style="padding: 12px;">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

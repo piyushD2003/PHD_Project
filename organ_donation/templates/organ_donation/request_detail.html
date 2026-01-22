@@ -1,0 +1,107 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-hands-helping"></i> Organ Request Details
+            </h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="{% url 'organ_donation:request_list' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+                    <h5 class="mb-0">{{ request.organ_type }} - Request Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6>Organ Information</h6>
+                            <p><strong>Organ Type:</strong> {{ request.organ_type }}</p>
+                            <p><strong>Blood Type:</strong> {{ request.blood_type|default:"Not specified" }}</p>
+                            <p><strong>Status:</strong> <span class="badge badge-{{ request.status }}">{{ request.get_status_display }}</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Request Information</h6>
+                            <p><strong>Age at Request:</strong> {{ request.age_at_request }} years</p>
+                            <p><strong>Urgency:</strong> <span class="badge badge-{{ request.urgency }}">{{ request.get_urgency_display }}</span></p>
+                            <p><strong>Requested Date:</strong> {{ request.created_at|date:"d M Y H:i" }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Medical Condition</h6>
+                            <p>{{ request.medical_condition }}</p>
+                        </div>
+                    </div>
+                    {% if request.notes %}
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <h6>Medical Notes</h6>
+                            <p>{{ request.notes }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if request.needed_by %}
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <h6>Needed By</h6>
+                            <p>{{ request.needed_by|date:"d M Y H:i" }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            {% if matching_donations %}
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+                    <h5 class="mb-0">Matching Donations</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for donation in matching_donations %}
+                    <div class="list-group-item" style="padding: 12px; border-bottom: 1px solid #eee;">
+                        <h6 class="mb-2" style="color: #24a19c;">{{ donation.organ_type }}</h6>
+                        <p class="mb-1"><small>Blood Type: <span class="badge badge-info">{{ donation.blood_type|default:"Not specified" }}</span></small></p>
+                        <p class="mb-1"><small>Donor Age: {{ donation.age_at_donation }}</small></p>
+                        <p class="mb-1"><small>Status: <span class="badge badge-success">{{ donation.get_status_display }}</span></small></p>
+                        
+                        <!-- Donor Contact Info -->
+                        <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; margin: 8px 0;">
+                            <p class="mb-1"><small><strong>Donor Contact:</strong></small></p>
+                            {% if donation.donor.phone %}
+                            <p class="mb-0"><small><i class="fas fa-phone"></i> {{ donation.donor.phone }}</small></p>
+                            {% else %}
+                            <p class="mb-0"><small style="color: #999;">Phone not available</small></p>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{% url 'organ_donation:donation_detail' donation.pk %}" class="btn btn-sm btn-primary" style="background: #24a19c; width: 100%; margin-top: 5px;">
+                            View Full Donation
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <h6>No Matching Donations</h6>
+                <p>There are currently no matching organs available for this request.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+{% load static %}
+  
+
+<div class="container py-4" id="main-content" >
+    <div class="card mx-auto ">
+        <div class="card-body" >
+
+            <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Add a New Record</h1>
+
+                <form class="" action="{% url 'doctor:addReport'%}" method="POST">
+                {% csrf_token %}
+                
+				<input type="hidden" id="" name="docid" value={{details.docid}}>
+				<input type="hidden" id="" name="patid" value={{details.patid}}>
+				<input type="hidden" id="" name="doctor_name" value={{details.doctor_name}}>
+				
+				<p style="font-size: 25px;"><span><b>Doctor Name: </b>{{details.doctor_name}}</span><span style="float: right;"><b>Date: </b>{{details.date}}</span></p>
+				
+				<!-- symptoms -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <select class="form-control form-select" name="symptoms" id="symptoms" required="" data-msg="Please select your symptoms.">
+                                <option value="" selected="" disabled="">Symptoms</option>
+                                <option value="Fever">Fever</option>
+                                <option value="Cough">Cough</option>
+                                <option value="Shortness of breath">Shortness of breath</option>
+                                <option value="Fatigue">Fatigue</option>
+                                <option value="Muscle or body aches">Muscle or body aches</option>
+                                <option value="Headache">Headache</option>
+                                <option value="New loss of taste or smell">New loss of taste or smell</option>
+                                <option value="Sore throat">Sore throat</option>
+                                <option value="Congestion or runny nose">Congestion or runny nose</option>
+                                <option value="Nausea or vomiting">Nausea or vomiting</option>
+                                <option value="Diarrhea">Diarrhea</option>
+                                <!-- Additional symptoms -->
+                                <option value="Joint pain">Joint pain</option>
+                                <option value="Rash">Rash</option>
+                                <option value="Abdominal pain">Abdominal pain</option>
+                                <option value="Dizziness">Dizziness</option>
+                                <option value="Loss of appetite">Loss of appetite</option>
+                                <option value="Bloating">Bloating</option>
+                                <option value="Constipation">Constipation</option>
+                                <option value="Fainting">Fainting</option>
+                                <option value="Nasal congestion">Nasal congestion</option>
+                                <option value="Loss of balance">Loss of balance</option>
+                                <option value="Heartburn">Heartburn</option>
+                                <option value="Tremors">Tremors</option>
+                                <option value="Swollen glands">Swollen glands</option>
+                                <option value="Blurred vision">Blurred vision</option>
+                                <option value="Sweating">Sweating</option>
+                                <option value="Dry mouth">Dry mouth</option>
+                                <option value="Hoarseness">Hoarseness</option>
+                                <option value="Yellowing of the skin or eyes">Yellowing of the skin or eyes</option>
+                                <option value="Loss of coordination">Loss of coordination</option>
+                                <option value="Difficulty swallowing">Difficulty swallowing</option>
+                                <option value="Itching">Itching</option>
+                                <option value="Tingling sensation">Tingling sensation</option>
+                                <option value="Hair loss">Hair loss</option>
+                                <option value="Increased thirst">Increased thirst</option>
+                                <option value="Increased urination">Increased urination</option>
+                                <option value="Feeling cold">Feeling cold</option>
+                                <option value="Feeling hot">Feeling hot</option>
+                                <option value="Night sweats">Night sweats</option>
+                                <option value="Swelling in the legs">Swelling in the legs</option>
+                                <option value="Painful urination">Painful urination</option>
+                                <option value="Burning sensation when urinating">Burning sensation when urinating</option>
+                                <option value="Decreased urine output">Decreased urine output</option>
+                                <option value="Blood in urine">Blood in urine</option>
+                                <option value="Cloudy urine">Cloudy urine</option>
+                                <option value="Difficulty starting urine flow">Difficulty starting urine flow</option>
+                                <option value="Weak urine flow">Weak urine flow</option>
+                                <option value="Frequent urination">Frequent urination</option>
+                                <option value="Urgent need to urinate">Urgent need to urinate</option>
+                                <option value="Increased appetite">Increased appetite</option>
+                                <option value="Decreased appetite">Decreased appetite</option>
+                                <option value="Loss of balance or coordination">Loss of balance or coordination</option>
+                                <option value="Memory problems">Memory problems</option>
+                                <option value="Confusion">Confusion</option>
+                                <option value="Irritability">Irritability</option>
+                                <option value="Difficulty concentrating">Difficulty concentrating</option>
+                                <option value="Mood swings">Mood swings</option>
+                                <option value="Sleep disturbances">Sleep disturbances</option>
+                                <option value="Chest pain">Chest pain</option>
+                                <option value="Chest tightness">Chest tightness</option>
+                                <option value="Heart palpitations">Heart palpitations</option>
+                                <option value="Leg cramps">Leg cramps</option>
+                                <option value="Joint swelling">Joint swelling</option>
+                                <option value="Stiffness">Stiffness</option>
+                                <option value="Back pain">Back pain</option>
+                                <option value="Neck pain">Neck pain</option>
+                                <option value="Shoulder pain">Shoulder pain</option>
+                                <option value="Arm pain">Arm pain</option>
+                                <option value="Hand pain">Hand pain</option>
+                                <option value="Hip pain">Hip pain</option>
+                                <option value="Knee pain">Knee pain</option>
+                                <option value="Ankle pain">Ankle pain</option>
+                                <option value="Foot pain">Foot pain</option>
+                                <option value="Jaw pain">Jaw pain</option>
+                                <option value="Calf pain">Calf pain</option>
+                                <option value="Toothache">Toothache</option>
+                                <option value="Eye pain">Eye pain</option>
+                                <option value="Earache">Earache</option>
+                                <option value="Head pressure">Head pressure</option>
+                                <option value="Numbness">Numbness</option>
+                                <option value="Twitching">Twitching</option>
+                                <option value="Weakness">Weakness</option>
+                                <option value="Dry skin">Dry skin</option>
+                                <option value="Flushed skin">Flushed skin</option>
+                                <option value="Cold hands or feet">Cold hands or feet</option>
+                                <option value="Blisters">Blisters</option>
+                                <option value="Cracked lips">Cracked lips</option>
+                                <option value="Pale skin">Pale skin</option>
+                                <option value="Redness">Redness</option>
+                                <option value="Bruising">Bruising</option>
+                                <option value="Sensitivity to light">Sensitivity to light</option>
+                                <option value="Dark circles under eyes">Dark circles under eyes</option>
+                                <option value="Swollen eyes">Swollen eyes</option>
+                                <option value="Yellowish skin">Yellowish skin</option>
+                                <option value="Black stools">Black stools</option>
+                                <option value="Bloody stools">Bloody stools</option>
+                                <option value="Green stools">Green stools</option>
+                                <option value="Pale stools">Pale stools</option>
+                                <option value="Decreased appetite">Decreased appetite</option>
+                                <option value="Increased appetite">Increased appetite</option>
+                                <option value="Weight loss">Weight loss</option>
+                                <option value="Weight gain">Weight gain</option>
+                                <option value="Decreased libido">Decreased libido</option>
+                                <option value="Increased libido">Increased libido</option>
+                                <option value="Loss of interest">Loss of interest</option>
+                                <option value="Hopelessness">Hopelessness</option>
+                                <option value="Suicidal thoughts">Suicidal thoughts</option>
+                                <option value="Restlessness">Restlessness</option>
+                                <option value="Nervousness">Nervousness</option>
+                                <option value="Panic attacks">Panic attacks</option>
+                                <option value="Fear">Fear</option>
+                                <option value="Worry">Worry</option>
+                                <option value="Excessive sweating">Excessive sweating</option>
+                                <option value="Nightmares">Nightmares</option>
+                                <option value="Hallucinations">Hallucinations</option>
+                                <option value="Delusions">Delusions</option>
+                                <option value="Paranoia">Paranoia</option>
+                                <option value="Impaired judgment">Impaired judgment</option>
+                                <option value="Poor concentration">Poor concentration</option>
+                                <option value="Memory problems">Memory problems</option>
+                                <option value="Difficulty making decisions">Difficulty making decisions</option>
+                                <option value="Decreased motivation">Decreased motivation</option>
+                                <option value="Increased irritability">Increased irritability</option>
+                                <option value="Increased anger">Increased anger</option>
+                                <option value="Increased sadness">Increased sadness</option>
+                                <option value="Decreased pleasure">Decreased pleasure</option>
+                                <option value="Loss of energy">Loss of energy</option>
+                                <option value="Feeling worthless">Feeling worthless</option>
+                                <option value="Feeling guilty">Feeling guilty</option>
+                                <option value="Suicidal thoughts">Suicidal thoughts</option>
+                                <option value="Hopelessness">Hopelessness</option>
+                                <option value="Helplessness">Helplessness</option>
+                                <option value="Loneliness">Loneliness</option>
+                                <option value="Sadness">Sadness</option>
+                                <option value="Grief">Grief</option>
+                                <option value="Regret">Regret</option>
+                                <option value="Anger">Anger</option>
+                                <option value="Frustration">Frustration</option>
+                                <option value="Irritability">Irritability</option>
+                                <option value="Anxiety">Anxiety</option>
+                                <option value="Worry">Worry</option>
+                                <option value="Fear">Fear</option>
+                                <option value="Panic">Panic</option>
+                                <option value="Paranoia">Paranoia</option>
+                                <option value="Obsessive thoughts">Obsessive thoughts</option>
+                                <option value="Compulsive behaviors">Compulsive behaviors</option>
+                                <option value="Feeling overwhelmed">Feeling overwhelmed</option>
+                                <option value="Feeling out of control">Feeling out of control</option>
+                                <option value="Feeling disconnected">Feeling disconnected</option>
+                                <option value="Feeling numb">Feeling numb</option>
+                                <option value="Feeling spaced out">Feeling spaced out</option>
+                                <option value="Feeling detached">Feeling detached</option>
+                                <option value="Feeling like you're not real">Feeling like you're not real</option>
+                                <option value="Feeling like things aren't real">Feeling like things aren't real</option>
+                                <option value="Feeling like you're in a dream">Feeling like you're in a dream</option>
+                                <option value="Feeling like you're not yourself">Feeling like you're not yourself</option>
+                                <option value="Feeling like you're watching yourself">Feeling like you're watching yourself</option>
+                                <option value="Feeling like you're not in your body">Feeling like you're not in your body</option>
+                                <option value="Feeling like you're outside of yourself">Feeling like you're outside of yourself</option>
+                                <option value="Feeling like you're floating">Feeling like you're floating</option>
+                                <option value="Feeling like you're disconnected from reality">Feeling like you're disconnected from reality</option>
+                                <option value="Feeling like you're not connected to your surroundings">Feeling like you're not connected to your surroundings</option>
+                                <option value="Feeling like you're in a bubble">Feeling like you're in a bubble</option>
+                                <option value="Feeling like you're in a fog">Feeling like you're in a fog</option>
+                                <option value="Feeling like you're on autopilot">Feeling like you're on autopilot</option>
+                                <option value="Feeling like you're not present">Feeling like you're not present</option>
+                                <option value="Feeling like you're in a daze">Feeling like you're in a daze</option>
+                                <option value="Feeling like you're not here">Feeling like you're not here</option>
+                                <option value="Feeling like you're far away">Feeling like you're far away</option>
+                                <option value="Feeling like you're disconnected from yourself">Feeling like you're disconnected from yourself</option>
+                                <option value="Feeling like you're not part of reality">Feeling like you're not part of reality</option>
+                                <option value="Feeling like you're not part of the world">Feeling like you're not part of the world</option>
+                                <option value="Feeling like you're not in control of your body">Feeling like you're not in control of your body</option>
+                                <option value="Feeling like you're not in control of your mind">Feeling like you're not in control of your mind</option>
+                                <option value="Feeling like you're not in control of yourself">Feeling like you're not in control of yourself</option>
+                                <option value="Feeling like you're not in control of your actions">Feeling like you're not in control of your actions</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+				</div>
+				
+				<!-- diagnosis -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <select class="form-control form-select" name="diagnosis" id="diagnosis" required="" data-msg="Please select your diagnosis.">
+                                <option value="" selected="" disabled="">Diagnosis</option>
+                                <option value="Influenza (Flu)">Influenza (Flu)</option>
+                                <option value="Common Cold (Upper Respiratory Tract Infection)">Common Cold (Upper Respiratory Tract Infection)</option>
+                                <option value="Pneumonia">Pneumonia</option>
+                                <option value="Bronchitis">Bronchitis</option>
+                                <option value="Asthma">Asthma</option>
+                                <option value="Chronic Obstructive Pulmonary Disease (COPD)">Chronic Obstructive Pulmonary Disease (COPD)</option>
+                                <option value="Allergic Rhinitis">Allergic Rhinitis</option>
+                                <option value="Sinusitis">Sinusitis</option>
+                                <option value="COVID-19 (Coronavirus Disease)">COVID-19 (Coronavirus Disease)</option>
+                                <option value="Gastroenteritis (Stomach Flu)">Gastroenteritis (Stomach Flu)</option>
+                                <option value="Food Poisoning">Food Poisoning</option>
+                                <option value="Irritable Bowel Syndrome (IBS)">Irritable Bowel Syndrome (IBS)</option>
+                                <option value="Gastritis">Gastritis</option>
+                                <option value="Peptic Ulcer Disease">Peptic Ulcer Disease</option>
+                                <option value="Gastroesophageal Reflux Disease (GERD)">Gastroesophageal Reflux Disease (GERD)</option>
+                                <option value="Appendicitis">Appendicitis</option>
+                                <option value="Diverticulitis">Diverticulitis</option>
+                                <option value="Gallstones">Gallstones</option>
+                                <option value="Pancreatitis">Pancreatitis</option>
+                                <option value="Hepatitis">Hepatitis</option>
+                                <option value="Cirrhosis">Cirrhosis</option>
+                                <option value="Urinary Tract Infection (UTI)">Urinary Tract Infection (UTI)</option>
+                                <option value="Kidney Stones">Kidney Stones</option>
+                                <option value="Glomerulonephritis">Glomerulonephritis</option>
+                                <option value="Chronic Kidney Disease (CKD)">Chronic Kidney Disease (CKD)</option>
+                                <option value="Acute Myocardial Infarction (Heart Attack)">Acute Myocardial Infarction (Heart Attack)</option>
+                                <option value="Angina Pectoris">Angina Pectoris</option>
+                                <option value="Arrhythmia">Arrhythmia</option>
+                                <option value="Heart Failure">Heart Failure</option>
+                                <option value="Hypertension (High Blood Pressure)">Hypertension (High Blood Pressure)</option>
+                                <option value="Hypotension (Low Blood Pressure)">Hypotension (Low Blood Pressure)</option>
+                                <option value="Atrial Fibrillation">Atrial Fibrillation</option>
+                                <option value="Stroke (Cerebrovascular Accident)">Stroke (Cerebrovascular Accident)</option>
+                                <option value="Transient Ischemic Attack (TIA)">Transient Ischemic Attack (TIA)</option>
+                                <option value="Migraine">Migraine</option>
+                                <option value="Tension Headache">Tension Headache</option>
+                                <option value="Cluster Headache">Cluster Headache</option>
+                                <option value="Temporal Arteritis">Temporal Arteritis</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+				
+				<!-- medication -->
+                <div class="form-group row">
+                    <div class="col-sm mt-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  placeholder="Medication" name="medication">
+                        </div>
+                        <small class="text-muted form-text">Medicines for treatment. Format: Medicine Name 1 / Dosage 1/ For action 1 : Medicine Name 2 / Dosage 2/ For action 2</small>
+                    </div>
+				</div>
+				
+				<!-- additional_precautions -->
+                <div class="form-group row">
+                    <div class="col-sm mb-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  placeholder="Additional Precautions" name="additional_precautions">
+						</div>
+						<small class="text-muted form-text">Additional Precautions to be taken by the Patient.</small>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+	<form   action="{% url 'doctor:addReport'%}" method="POST">
+		{% csrf_token %}
+		
+
+  
+{% endblock %}

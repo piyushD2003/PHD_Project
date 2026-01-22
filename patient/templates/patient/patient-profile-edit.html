@@ -1,0 +1,266 @@
+{% extends 'patient/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block patient_base %}
+<div class="container-fluid py-4">
+    <div class="card mx-auto" style="width: fit-content;">
+        <div class="card-body">
+            <h1 style="font-family: Itim, cursive; text-align: center;" class="mb-3 mx-auto">Edit Profile:</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Name -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Name" name="name" value="{{ form.name.value }}">
+                        </div>
+                    </div>
+                </div>
+                <!-- Age and Gender -->
+                <div class="form-group row">
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="number" class="form-control" min="0" placeholder="Age" name="age" value="{{ form.age.value }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <select class="form-control" name="gender">
+                            <option selected disabled>Gender</option>
+                            <option value="Male" {% if form.gender.value == "Male" %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if form.gender.value == "Female" %}selected{% endif %}>Female</option>
+                            <option value="Others" {% if form.gender.value == "Others" %}selected{% endif %}>Others</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Phone and Aadhar Number -->
+                <div class="form-group row">
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+91</div>
+                            </div>
+                            <input type="tel" class="form-control" pattern="[1-9]{1}[0-9]{9}" placeholder="Phone Number" name="phone" value="{{ form.phone.value }}">
+                        </div>
+                        <small>{{ form.phone.help_text }}</small>
+                    </div>
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="text" class="form-control" pattern="[0-9]{12}" placeholder="Aadhar Number" name="Aadhar_Number" value="{{ form.Aadhar_Number.value }}">
+                        </div>
+                        <small>{{ form.Aadhar_Number.help_text }}</small>
+                    </div>
+                </div>
+                <!-- Address -->
+                <div class="form-group row">
+                    <div class="col-sm my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Address" name="address" value="{{ form.address.value }}">
+                        </div>
+                    </div>
+                </div>
+                <!-- Emergency Contact -->
+                <div class="form-group row">
+                    <div class="col-sm-6 my-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+91</div>
+                            </div>
+                            <input type="tel" class="form-control" pattern="[1-9]{1}[0-9]{9}" placeholder="Emergency Contact" name="emergency_contact" value="{{ form.emergency_contact.value }}">
+                        </div>
+                    </div>
+                </div>
+                <!-- Profession -->
+                <div class="form-group row">
+                    <div class="col-sm-6 my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Profession" name="profession" value="{{ form.profession.value }}">
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile Picture -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="profilepicinput" name="profile_pic">
+                            <label class="custom-file-label" for="profilepicinput">Profile Picture</label>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(".custom-file-input").on("change", function() {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+                <button class="btn btn-success" type="submit">Save</button>
+                <button class="btn btn-secondary" type="reset">Reset</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+{% comment %} {% extends 'patient/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block patient_base %}
+
+<div class="container-fluid py-4"  >
+	<div class="card mx-auto " style="width:fit-content">
+		<div class="card-body" >
+
+			<h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Edit Profile:</h1>
+			{% comment %} <p>Editing information for: {{ patient_name }}</p> {% endcomment %}
+				{% comment %} <form method="POST" enctype="multipart/form-data"> {% endcomment %}
+				{% comment %} {% csrf_token %} {% endcomment %}
+				{% comment %} {{ form.as_p }} {% endcomment %}
+
+				{% comment %} <form class="" action="" method="POST">
+				{% csrf_token %} 
+
+				<!-- name -->
+				<div class="form-group row" >
+					<div class="col-sm my-2 ">
+						<div class="input-group" >
+							<input type="text" class="form-control"  placeholder="Name" name="name" value="{{ form.name.value }}">
+						</div>
+					</div>
+				</div>
+
+				<!-- age -->
+				<div class="form-group row ">
+					<!-- age -->
+					<div class="col-sm-5 my-2 mx-auto ">
+						<div class="input-group">
+							<input type="number" class="form-control" min="0" placeholder="Age" name="age" value="{{ form.age.value }}">
+							
+
+						</div>
+					</div>
+					<!-- gender -->
+					<div class="col-sm-5 my-2 mx-auto ">
+						<select class="form-control" id="exampleFormControlSelect1" name="gender" value="{{ form.gender.value }}">
+							<option selected disabled>Gender</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Others">Others</option>
+						</select>
+					
+						<!-- <div class="input-group">
+							<input type="text" class="form-control"  placeholder="Gender" name="gender">
+						</div> -->
+					</div>
+				</div>
+							
+				<div class="form-group row">
+					<!-- phone -->
+					<div class="col-sm-5 my-2 mx-auto">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">+91</div>
+							</div>
+							<input type="tel" class="form-control" pattern="[1-9]{1}[0-9]{9}" placeholder="Phone Number" name="phone" value="{{ form.phone.value }}">
+						</div>
+						<small>{{ form.phone.help_text }}</small>
+					</div>
+					<!-- aadhar number -->
+					<div class="col-sm-5 my-2 mx-auto">
+						<div class="input-group">
+							<input type="text" class="form-control" pattern="[0-9]{12}" placeholder="Aadhar Number" name="Aadhar_Number" value="{{ form.Aadhar_Number.value }}">
+						</div>
+						<small>{{ form.Aadhar_Number.help_text }}</small>
+					</div>
+				</div>
+
+				<!-- address -->
+				<div class="form-group row">
+					<div class="col-sm my-2 mx-auto">
+						<div class="input-group">
+							<input type="text" class="form-control"  placeholder="Address" name="address" value="{{ form.address.value }}">
+						</div>
+					</div>
+				</div>
+				
+				<!-- emergency_contact -->
+				<div class="form-group row">
+					<div class="col-sm-6 my-2">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">+91</div>
+							</div>
+							<input type="phone" class="form-control" pattern="[1-9]{1}[0-9]{9}" placeholder="Emergency Contact" name="emergency_contact" value="{{ form.emergency_contact.value}}">
+						</div>
+					</div>
+				</div>
+
+				<!-- profession -->
+				<div class="form-group row">
+					<div class="col-sm-6 my-2">
+						<div class="input-group">
+							<input type="text" class="form-control"  placeholder="Profession" name="profession" value="{{ form.profession.value}}">
+						</div>
+					</div>
+				</div>
+
+				<!-- profile_pic -->
+				<div class="form-group row">
+					<div class="col-sm my-2">
+						<div class="custom-file mb-3">
+						<input type="file" class="custom-file-input" id="profilepicinput" name="profile_pic" >
+						<label class="custom-file-label" for="profilepicinput">Profile Picture</label>
+						</div>
+					</div>
+				</div>
+				<script>
+					// Add the following code if you want the name of the file appear on select
+					$(".custom-file-input").on("change", function() {
+					var fileName = $(this).val().split("\\").pop();
+					$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+					});
+				</script>
+			
+				<button class="btn btn-success" type="reset">Save</button>
+				<button class="btn btn-success" type="reset">Reset</button>
+		</div>
+	</div>
+</div>
+
+{% endblock %} 
+
+
+ {% endcomment %}
+
+
+
+
+{% comment %} <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Edit Profile</h1>
+<p>Editing information for: {{ patient_name }}</p>
+<form method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+</form> {% endcomment %}
+
+
+{% comment %} #full html code
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Patient Profile</title>
+</head>
+<body>
+    <h1>Edit Patient Profile</h1>
+    <p>Editing information for: {{ patient_name }}</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+</body>
+</html>  
+
+
+ {% endcomment %}

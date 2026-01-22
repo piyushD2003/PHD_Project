@@ -1,0 +1,43 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #d73a49; border-bottom: 3px solid #d73a49; padding-bottom: 10px;">
+                <i class="fas fa-exclamation-triangle"></i> Confirm Donation Cancellation
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-body text-center">
+                    <i class="fas fa-question-circle" style="font-size: 48px; color: #ffc107; margin-bottom: 20px;"></i>
+                    <h4 class="mb-3">Are you sure?</h4>
+                    <p class="mb-4">You are about to cancel your organ donation for:</p>
+                    
+                    <div class="alert alert-info">
+                        <p class="mb-0"><strong>{{ donation.organ_type }}</strong></p>
+                        <p class="mb-0">Registered: {{ donation.created_at|date:"d M Y" }}</p>
+                    </div>
+
+                    <p class="text-muted mb-4">This action cannot be undone.</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-block" style="margin-bottom: 10px;">
+                            <i class="fas fa-trash"></i> Yes, Cancel This Donation
+                        </button>
+                        <a href="{% url 'organ_donation:my_donations' %}" class="btn btn-secondary btn-block">
+                            <i class="fas fa-times"></i> No, Go Back
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

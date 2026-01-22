@@ -1,0 +1,231 @@
+{% extends 'patient/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block patient_base %}
+
+<div class="container-fluid py-4"  style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg'%}');
+            background-size: cover; 
+           background-repeat: no-repeat; 
+           background-position: center; 
+           height: 100vh; 
+           display: flex; 
+           align-items: center; 
+           justify-content: center;">
+    <div class="card mx-auto" style="width: 95%; max-width: 900px; padding: 30px;">
+        <div class="card-body" style="padding: 20px;">
+
+            <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Enter Personal Information</h1>
+            {% comment %} {% if patient.profile_pic %}
+            <div class="text-center mb-3">
+                <img src="{{ patient.profile_pic.url }}" class="img-thumbnail" alt="Profile Picture">
+            </div>
+            {% endif %} {% endcomment %}
+
+                <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+ 
+                <!-- name -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Name" name="name" id="nameInput">
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    document.getElementById("nameInput").addEventListener("input", function(event) {
+                        let inputValue = event.target.value;
+                        let sanitizedValue = inputValue.replace(/[^A-Za-z\u0900-\u097F\s]/g, '');
+                        event.target.value = sanitizedValue;
+                    });
+                </script>
+                
+
+                <!-- age -->
+                <div class="form-group row ">
+                    <!-- age -->
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="number" class="form-control" min="0" max="100" placeholder="Age" name="age" id="ageInput">
+                        </div>
+                    </div>
+                    
+                    <script>
+                        document.getElementById("ageInput").addEventListener("input", function(event) {
+                            let inputValue = parseInt(event.target.value);
+                            if (inputValue > 150) {
+                                event.target.value = 150;
+                            }
+                        });
+                    </script>
+                    
+                    <!-- gender -->
+                    <div class="col-sm-5 my-2 mx-auto ">
+						<select class="form-control" id="exampleFormControlSelect1" name="gender" placeholder="Gender">
+							<option selected disabled>Gender</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Others">Others</option>
+						</select>
+				
+                        <!-- <div class="input-group">
+                            <input type="text" class="form-control"  placeholder="Gender" name="gender">
+                        </div> -->
+                    </div>
+                </div>
+                            
+                <div class="form-group row">
+                    <!-- phone -->
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+91</div>
+                            </div>
+                            <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Phone Number" name="phone" id="phoneInput">
+                        </div>
+                        <small>{{ form.phone.help_text }}</small>
+                    </div>
+                    
+                    <script>
+                        document.getElementById("phoneInput").addEventListener("input", function(event) {
+                            let inputValue = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+                            if (inputValue.length > 10) {
+                                inputValue = inputValue.slice(0, 10); // Limit to 10 digits
+                            }
+                            event.target.value = inputValue;
+                        });
+                    </script>
+                    
+                    <!-- aadhar number -->
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="tel" class="form-control" pattern="[0-9]{12}" placeholder="Aadhar Number" name="Aadhar_Number" id="aadharInput">
+                        </div>
+                        <small>{{ form.Aadhar_Number.help_text }}</small>
+                    </div>
+                    
+                    <script>
+                        document.getElementById("aadharInput").addEventListener("input", function(event) {
+                            let inputValue = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+                            if (inputValue.length > 12) {
+                                inputValue = inputValue.slice(0, 12); // Limit to 12 digits
+                            }
+                            event.target.value = inputValue;
+                        });
+                    </script>
+                </div>
+                
+
+                <!-- address -->
+                <div class="form-group row">
+                    <div class="col-sm my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Address" name="address">
+                        </div>
+                    </div>
+				</div>
+				
+				<!-- emergency_contact -->
+                <div class="form-group row">
+                    <div class="col-sm-6 my-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+91</div>
+                            </div>
+                            <input type="tel" class="form-control" pattern="[0-9]{10}" placeholder="Emergency Contact" name="emergency_contact" id="emergencyContactInput">
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    document.getElementById("emergencyContactInput").addEventListener("input", function(event) {
+                        let inputValue = event.target.value.replace(/\D/g, ''); // Remove non-digit characters
+                        if (inputValue.length > 10) {
+                            inputValue = inputValue.slice(0, 10); // Limit to 10 digits
+                        }
+                        event.target.value = inputValue;
+                    });
+                </script>
+                
+
+				<!-- profession -->
+                <div class="form-group row">
+                    <div class="col-sm-6 my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control"  placeholder="Profession" name="profession">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- profile_pic -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input" id="profilepicinput" name="profile_pic" >
+                        <label class="custom-file-label" for="profilepicinput">Profile Picture</label>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Add the following code if you want the name of the file appear on select
+                    $(".custom-file-input").on("change", function() {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+               
+
+                <button class="btn btn-success" type="submit">Save</button>
+                <button class="btn btn-success" type="reset">Reset</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %} 
+
+
+
+
+<!-- Aadhar_Number -->
+<!-- <div class="form-group row">
+	<div class="col-sm-4">
+		{{ form.Aadhar_Number.label }}
+	</div>
+	<div class="col-sm">
+		{{ form.Aadhar_Number }}
+	</div>
+</div> --> 
+
+
+
+
+{% comment %} <div class="container-fluid py-4" style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg' %}'); background-size: 100%">
+    <div class="card mx-auto" style="width: fit-content">
+        <div class="card-body">
+
+            <h1 style="font-family: Itim, cursive; text-align: center;" class="mb-3 mx-auto">Patient Profile</h1>
+            
+            <!-- Profile Picture -->
+            {% if patient.profile_pic %}
+            <div class="text-center mb-3">
+                <img src="{{ patient.profile_pic.url }}" class="img-thumbnail" alt="Profile Picture">
+            </div>
+            {% endif %}
+
+            <!-- Other Profile Details -->
+            <p>Name: {{ patient.name }}</p>
+            <p>Age: {{ patient.age }}</p>
+            <p>Gender: {{ patient.gender }}</p>
+            <p>Phone: {{ patient.phone }}</p>
+            <p>Aadhar Number: {{ patient.Aadhar_Number }}</p>
+            <p>Address: {{ patient.address }}</p>
+            <p>Emergency Contact: {{ patient.emergency_contact }}</p>
+            <p>Profession: {{ patient.profession }}</p>
+            <p>Access Code: {{ patient.access_code }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %} {% endcomment %}

@@ -1,0 +1,167 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-check-double"></i> Confirm Transplant Completion
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <!-- Confirmation Summary -->
+            <div class="card mb-4" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-top: 4px solid #28a745;">
+                <div class="card-header" style="background: linear-gradient(90deg, #28a745, #20c997);">
+                    <h5 class="mb-0"><i class="fas fa-check-circle"></i> Transplant Confirmation Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card" style="border: 1px solid #ddd; background: #f8f9fa;">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="fas fa-vial"></i> Your Organ</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Organ Type:</strong> {{ donation.organ_type }}</p>
+                                    <p><strong>Blood Type:</strong> {{ donation.blood_type|default:"Not specified" }}</p>
+                                    <p><strong>Your Age:</strong> {{ donation.age_at_donation }}</p>
+                                    <p><strong>Status:</strong> <span class="badge badge-info">Matched</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card" style="border: 1px solid #ddd; background: #f8f9fa;">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="fas fa-user-patient"></i> Recipient</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Recipient Name:</strong> {{ recipient.user.get_full_name|default:"N/A" }}</p>
+                                    <p><strong>Age:</strong> {{ donation.matched_request.age_at_request }} years</p>
+                                    <p><strong>Contact:</strong> 
+                                        {% if recipient.phone %}
+                                            {{ recipient.phone }}
+                                        {% else %}
+                                            Not available
+                                        {% endif %}
+                                    </p>
+                                    <p><strong>Status:</strong> <span class="badge badge-info">Matched</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Confirmation Details -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 style="color: #24a19c; margin-bottom: 15px;">
+                                <i class="fas fa-hospital"></i> Transplant Details
+                            </h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Donor:</strong></td>
+                                        <td>{{ donation.donor.user.get_full_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Recipient:</strong></td>
+                                        <td>{{ recipient.user.get_full_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Organ:</strong></td>
+                                        <td>{{ donation.organ_type }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Match Date:</strong></td>
+                                        <td>{{ donation.updated_at|date:"M d, Y H:i" }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Message -->
+            <div class="alert alert-success mb-4" style="background: #d4edda; border-left: 5px solid #28a745;">
+                <i class="fas fa-check-circle"></i>
+                <strong>Success!</strong> By confirming below, you're indicating that the organ transplant procedure has been completed successfully.
+            </div>
+
+            <!-- Confirmation Form -->
+            <div class="card mb-4" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: #f8f9fa;">
+                    <h5 class="mb-0">Confirm Transplant Completion</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-4">
+                            <div class="alert alert-warning" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Important:</strong> Please ensure that:
+                                <ul class="mb-0 mt-2">
+                                    <li>The transplant procedure has been completed</li>
+                                    <li>The organ has been successfully transferred to the recipient</li>
+                                    <li>You have verified the successful completion</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-4 p-3" style="background: #f8f9fa; border-radius: 5px;">
+                            <input type="checkbox" class="form-check-input" id="confirmCheck" required>
+                            <label class="form-check-label" for="confirmCheck">
+                                <strong>I confirm that the organ transplant has been completed successfully.</strong>
+                            </label>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-block" style="padding: 12px; font-weight: bold;">
+                                    <i class="fas fa-check-circle"></i> Confirm Transplant Completion
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'organ_donation:recipient_info' donation.id %}" class="btn btn-secondary btn-block" style="padding: 12px;">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="alert alert-info" style="background: #e7f3f0; border-left: 5px solid #24a19c;">
+                <i class="fas fa-info-circle"></i>
+                <strong>What happens next?</strong>
+                <ul class="mb-0 mt-2">
+                    <li>Your donation status will be updated to <strong>Completed</strong></li>
+                    <li>A transaction record will be created for medical documentation</li>
+                    <li>Both you and the recipient will receive a confirmation</li>
+                    <li>This completes the organ donation process</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Require checkbox to be checked before submitting
+document.querySelector('form').addEventListener('submit', function(e) {
+    const confirmCheck = document.getElementById('confirmCheck');
+    if (!confirmCheck.checked) {
+        e.preventDefault();
+        alert('Please confirm that the transplant has been completed successfully.');
+        return false;
+    }
+});
+</script>
+{% endblock %}

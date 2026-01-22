@@ -1,0 +1,169 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-4" style="color: #24a19c; font-weight: bold;">
+                <i class="fas fa-heart" style="color: #d73a49;"></i> Organ Donation System
+            </h1>
+            <p class="lead">Manage your organ donations and requests</p>
+        </div>
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card" style="border-left: 5px solid #24a19c; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <h5 class="card-title">My Donations</h5>
+                    <p class="display-4" style="color: #24a19c;">{{ user_donations_count|default:0 }}</p>
+                    <a href="{% url 'organ_donation:my_donations' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card" style="border-left: 5px solid #cedebd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <h5 class="card-title">My Requests</h5>
+                    <p class="display-4" style="color: #cedebd;">{{ user_requests_count|default:0 }}</p>
+                    <a href="{% url 'organ_donation:my_requests' %}" class="btn btn-sm btn-outline-success">View All</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card" style="border-left: 5px solid #3a8684; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <h5 class="card-title">Available Organs</h5>
+                    <p class="display-4" style="color: #3a8684;">{{ available_organs_count|default:0 }}</p>
+                    <a href="{% url 'organ_donation:donation_list' %}" class="btn btn-sm btn-outline-info">Browse</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card" style="border-left: 5px solid #f39c12; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Requests</h5>
+                    <p class="display-4" style="color: #f39c12;">{{ pending_requests_count|default:0 }}</p>
+                    <a href="{% url 'organ_donation:request_list' %}" class="btn btn-sm btn-outline-warning">View All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #3a8684);">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'organ_donation:register_donation' %}" class="btn btn-block btn-lg btn-primary" style="background: #24a19c;">
+                                <i class="fas fa-plus-circle"></i> Register Organ Donation
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'organ_donation:request_organ' %}" class="btn btn-block btn-lg btn-success">
+                                <i class="fas fa-hands-helping"></i> Request an Organ
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'organ_donation:donation_list' %}" class="btn btn-block btn-lg btn-info">
+                                <i class="fas fa-search"></i> Browse Available Organs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #3a8684);">
+                    <h5 class="mb-0">About Organ Donation</h5>
+                </div>
+                <div class="card-body">
+                    <p>Organ donation is a generous gift that can save lives. Through this system, you can:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Register organs you wish to donate</li>
+                        <li class="list-group-item">Request organs when needed</li>
+                        <li class="list-group-item">Match donors with recipients safely</li>
+                        <li class="list-group-item">Track donation status in real-time</li>
+                        <li class="list-group-item">Work with qualified medical professionals</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #3a8684);">
+                    <h5 class="mb-0">Donation Process</h5>
+                </div>
+                <div class="card-body">
+                    <ol>
+                        <li><strong>Registration:</strong> Register your organ donation</li>
+                        <li><strong>Verification:</strong> Medical verification of organ health</li>
+                        <li><strong>Matching:</strong> System finds compatible recipients</li>
+                        <li><strong>Direct Contact:</strong> Donor and recipient communicate directly via phone</li>
+                        <li><strong>Transaction:</strong> Organ transplant procedure</li>
+                        <li><strong>Follow-up:</strong> Post-transplant care and monitoring</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- Not Authenticated Message -->
+    <div class="alert alert-info text-center" role="alert">
+        <h4 class="alert-heading">Welcome to Organ Donation System</h4>
+        <p>Please <a href="{% url 'login' %}">login</a> to access the organ donation system.</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .display-4 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .list-group-item {
+        border-left: 3px solid #24a19c;
+        padding-left: 15px;
+    }
+
+    h1 {
+        border-bottom: 3px solid #24a19c;
+        padding-bottom: 10px;
+    }
+</style>
+{% endblock %}

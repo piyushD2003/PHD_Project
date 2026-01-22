@@ -1,0 +1,108 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-phone-alt"></i> Initiate Contact with Patient
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="alert alert-info" style="background: #e7f3f0; border-left: 5px solid #24a19c;">
+                <i class="fas fa-info-circle"></i>
+                <strong>You're about to initiate contact:</strong> Your organ donation will be marked as "Matched" and locked to this patient request only.
+            </div>
+
+            <div class="card mb-4" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+                    <h5 class="mb-0"><i class="fas fa-vial"></i> Your Donation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Organ Type:</strong> {{ donation.organ_type }}</p>
+                            <p><strong>Blood Type:</strong> {{ donation.blood_type|default:"Not specified" }}</p>
+                            <p><strong>Status:</strong> <span class="badge badge-success">{{ donation.get_status_display }}</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Your Age:</strong> {{ donation.age_at_donation }}</p>
+                            <p><strong>Health Condition:</strong><br>
+                                <small>{{ donation.health_condition|truncatewords:20 }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-top: 4px solid #ffc107;">
+                <div class="card-header" style="background: linear-gradient(90deg, #ffc107, #ff9800);">
+                    <h5 class="mb-0"><i class="fas fa-user-patient"></i> Patient Requesting This Organ</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Patient Name:</strong> {{ patient.user.get_full_name|default:"N/A" }}</p>
+                            <p><strong>Age:</strong> {{ organ_request.age_at_request }} years</p>
+                            <p><strong>Urgency:</strong> 
+                                <span class="badge badge-{{ organ_request.urgency }} badge-lg" style="padding: 8px 12px;">
+                                    {{ organ_request.get_urgency_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 style="color: #ff9800;">Patient Contact Information:</h6>
+                            <div style="background: #fff3cd; padding: 10px; border-radius: 5px; border-left: 4px solid #ffc107;">
+                                <p class="mb-0">
+                                    <i class="fas fa-phone"></i>
+                                    {% if patient.phone_number %}
+                                        <strong>{{ patient.phone_number }}</strong>
+                                    {% else %}
+                                        <span style="color: #999;">Phone not available</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><strong>Medical Condition:</strong></p>
+                        <p>{{ organ_request.medical_condition }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mb-4" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Important:</strong>
+                <ul class="mb-0 mt-2">
+                    <li>Once you initiate contact, this organ donation will be <strong>locked</strong> to this patient only</li>
+                    <li>It will no longer appear in other patients' available organs lists</li>
+                    <li>The patient can then contact you at your registered phone number to arrange the transplant</li>
+                    <li>If the match doesn't work out, you'll need to cancel and re-list your donation</li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg btn-block" style="padding: 12px; font-weight: bold;">
+                            <i class="fas fa-phone"></i> Yes, Initiate Contact
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'organ_donation:donation_detail' donation.pk %}" class="btn btn-secondary btn-lg btn-block" style="padding: 12px;">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'patient/base.html' %}
+{% load static %}
+{% block patient_base %}
+
+<div class="container" id="main-content" style="margin: auto; min-height: 80vh;">
+  
+    <h1 style="font-family:'Ubuntu';font-size: 3rem;text-align: center; color: rgb(92, 46, 13); ">Medications</h1>
+    <div class="row my-4">
+        <div class="col-12 col-md-12 offset-md-0" > <!-- Centering the column on larger screens -->
+            <div class="card prescription-card"> <!-- Added Bootstrap card class for better styling -->
+            {% for report in Reports%}
+                <div class="card-body prescription">
+                    <p class="card-title"><span><b>Doctor: </b> {{report.doctor_name}}</span>
+                    <span style="float: right;"><b>Date: </b>{{report.date}}</span></p>
+
+                    <p class="card-text"><b>Symptoms: </b>{{report.Symptoms}}</p>
+                    <p class="card-text"><b>Diagnosis: </b>{{report.diagnosis}}</p>
+                    <table class="table table-bordered table-sm">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Dosage</th>
+                            <th>For</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {%for med in report.medication%}
+                        <tr>
+                            {%for each in med%}
+                            <td>{{each}}</td>
+                            {%endfor%}
+                           
+                        </tr>
+                        {%endfor%}
+                        
+                        </tbody>
+                    </table>
+                    <p class="card-text"><strong>Additional Precautions:</strong> {{report.additional_precautions}}</p>
+                        
+                </div>
+                <hr>
+                {% empty %}
+                <div class="responsive-message" style="margin: auto;">
+                    <p style="font-size: 24px;">
+                        <b> NO MEDICAL HISTORY !!</b>
+                    </p>
+                    
+                </div>
+            {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+{% endblock %}
