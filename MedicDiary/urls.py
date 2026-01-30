@@ -30,6 +30,7 @@ urlpatterns = [
     path('login/',authentication_views.LoginView.as_view(template_name='MedicDiary/login.html'),name='login'),
     path('labtests/', include('labtest.urls', namespace='labtest')),
     path('insurance/', include('insurance.urls', namespace='insurance')),
+    path('organ_donation/', include('organ_donation.urls')),
     
 ]
 

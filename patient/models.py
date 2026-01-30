@@ -10,7 +10,7 @@ from medical.models import Prescription
 class PatientProfile(models.Model):
 
     # patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    patient = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete= models.CASCADE)
+    patient = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     userid=models.IntegerField(blank=False,default=0)##added
     name = models.CharField(max_length=30, blank=False)
     age = models.IntegerField(blank=False)

@@ -127,6 +127,10 @@
 						<a class='list-group-item list-group-item-action {% if request.resolver_match.url_name == "Hypertension" %}active{% endif %} ' href="{% url 'centralapp:Hypertension' %}">Hypertension</a>
 						<a class='list-group-item list-group-item-action {% if request.resolver_match.url_name == "Diabetes" %}active{% endif %} ' href="{% url 'centralapp:Diabetes' %}">Diabetes</a>
 					</ul>
+					<li class="list-group-item heads">Services</li>
+					<ul class="list-group">
+						<a class='list-group-item list-group-item-action {% if request.resolver_match.app_name == "organ_donation" %}active{% endif %} ' href="{% url 'organ_donation:dashboard' %}">Organ Donation</a>
+					</ul>
 					<!-- <a class='list-group-item list-group-item-action heads {% if request.resolver_match.url_name == "About_us" %}active{% endif %} ' href="{% url 'centralapp:About_us' %}">About Us</a> -->
 					<a class='list-group-item list-group-item-action heads {% if request.resolver_match.url_name == "FAQS" %}active{% endif %} ' href="{% url 'centralapp:FAQS' %}">FAQs</a>
 					<!-- <a class='list-group-item list-group-item-action heads {% if request.resolver_match.url_name == "Covid_19" %}active{% endif %} ' href="{% url 'centralapp:Covid_19' %}">Covid-19 Checkpoints</a> -->

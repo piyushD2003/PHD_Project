@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'labtest',
     'insurance',
     'medical',
+    'organ_donation',
 ]
 
 MIDDLEWARE = [

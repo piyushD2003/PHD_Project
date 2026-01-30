@@ -67,9 +67,15 @@ def create_patientprofile(request):
     if request.method == 'POST':
         form = PatientProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            patient = form.save(commit=False)
-            patient.patient = request.user
-            patient.save()
+            # Check if profile already exists
+            existing_profile = PatientProfile.objects.filter(patient=request.user).first()
+            if existing_profile:
+                form = PatientProfileForm(request.POST, request.FILES, instance=existing_profile)
+                patient = form.save()
+            else:
+                patient = form.save(commit=False)
+                patient.patient = request.user
+                patient.save()
 
             # Calculate access_code as before
             concatenated_string = str(patient.id) + patient.address
@@ -172,7 +178,7 @@ def patientvitals_input(request):
  
 @login_required
 def patientProfile(request):
-    profile = PatientProfile.objects.filter(patient=request.user).latest('id')
+    profile = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
     return render(request, 'patient/patient_profile.html',{'profile':profile})
 
 @login_required
@@ -183,7 +189,9 @@ def patientRecords(request):
         vitals = None
 
     try:
-        patient = PatientProfile.objects.get(patient=request.user)
+        patient = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
+        if not patient:
+            raise PatientProfile.DoesNotExist
     except PatientProfile.DoesNotExist:
         messages.error(request, "Patient profile not found.")
         return redirect('patient:create_patientprofile')
@@ -250,7 +258,9 @@ def extract_text_from_image(image):
 def patient_labtests_view(request):
     try:
         # Get the profile for the currently logged-in patient
-        patient_profile = PatientProfile.objects.get(patient=request.user)
+        patient_profile = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
+        if not patient_profile:
+            raise PatientProfile.DoesNotExist
     except PatientProfile.DoesNotExist:
         messages.error(request, "Patient profile not found.")
         return redirect('patient:create_patientprofile')  # redirect if no profile
@@ -274,7 +284,7 @@ def patient_labtest_detail(request, test_id):
 
 @login_required
 def medications(request):
-    patient=PatientProfile.objects.filter(patient=request.user)[0]
+    patient = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
     all_reports=Records.objects.filter(patient_id=patient.id).order_by('id').reverse()
     
     # print(len(all_reports.reverse()))
@@ -294,7 +304,7 @@ def medications(request):
 @login_required
 # def editPatient(request):
 def editPatient(request):
-    patient = PatientProfile.objects.filter(patient=request.user).latest('id')
+    patient = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
     
     if request.method == 'POST':
         form = PatientProfileForm(request.POST, request.FILES, instance=patient)
@@ -338,7 +348,9 @@ def editPatientVitals(request):
 def create_insurance_view(request):
     try:
         # Get the profile for the currently logged-in patient
-        patient_profile = PatientProfile.objects.get(patient=request.user)
+        patient_profile = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
+        if not patient_profile:
+            raise PatientProfile.DoesNotExist
         print(patient_profile)
     except PatientProfile.DoesNotExist:
         messages.error(request, "Patient profile not found.")
@@ -372,7 +384,9 @@ def create_insurance_view(request):
 def my_insurance_view(request):
     try:
         # Get the profile for the currently logged-in patient
-        patient_profile = PatientProfile.objects.get(patient=request.user)
+        patient_profile = PatientProfile.objects.filter(patient=request.user).order_by('-id').first()
+        if not patient_profile:
+            raise PatientProfile.DoesNotExist
     except PatientProfile.DoesNotExist:
         messages.error(request, "Patient profile not found.")
         # Redirect to the page where they create a profile
