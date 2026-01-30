@@ -1,0 +1,37 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Doctor List</h2>
+
+    {% if doctors %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Specialization</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctors %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.Specialisation }}</td>
+                    <td>{{ doctor.doctor.email }}</td>
+                    <td>{{ doctor.phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center">No doctors found.</p>
+    {% endif %}
+</div>
+{% endblock %}

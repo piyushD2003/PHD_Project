@@ -1,0 +1,41 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Billing List</h2>
+
+    {% if billings %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Paid by</th>
+                    <th>Payment method</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for billing in billings %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ billing.patient.username }}</td>
+                    <td>₹{{ billing.total_amount }}</td>
+                    <td>{{ billing.billing_type }}</td>
+                    <td>{{ billing.paid_by }}</td>
+                    <td>{{ billing.payment_method }}</td>
+                    <td>{{ billing.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center">No billing records found.</p>
+    {% endif %}
+</div>
+{% endblock %}

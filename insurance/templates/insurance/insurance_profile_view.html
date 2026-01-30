@@ -1,0 +1,68 @@
+{% extends 'insurance/base.html' %}
+{% load static %}
+{% block insurance_base %}
+
+<div class="container" style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center;">
+  <h1 style="font-family:'Ubuntu'; font-size: 3rem; color: rgb(92, 46, 13);">Insurance Officer Profile</h1>
+  <button class="edit-option-buttons btn btn-outline-primary" style="font-size: 18px; float: right;">
+      <a href="{% url 'insurance:editInsuranceProfile' %}" style="text-decoration: none;">Edit Profile</a>
+  </button>
+</div>
+
+<div class="container" style="margin: 0 auto; width: 90%;">
+  <div class="row my-5">
+
+    <!-- Profile Picture + Basic Info -->
+    <div class="col-md-4 col-sm-12 text-center hi" style="background-color: #f5f1da;"><br>
+          <img class="profile-photo" src="{{ profile.profile_pic.url }}" alt=""><br><br>
+          <div class="row my-3 align-items-center">
+        <!-- <div class="col-6"><b>NAME:</b></div> -->
+        <div class="col-6">{{ profile.name }}</div>
+      </div><br>
+
+      <div class="row my-3">
+        <div class="col-6"><b>USERNAME:</b></div>
+        <div class="col-6">{{ request.user.username }}</div>
+      </div><br>
+
+      <div class="row my-3">
+        <div class="col-6"><b>EMAIL:</b></div>
+        <div class="col-6">{{ profile.email }}</div>
+      </div><br>
+    </div>
+
+    <!-- Contact & Address -->
+    <div class="col-md-4 col-sm-12 text-center" style="background-color:#f5f1da;"><br>
+      <div class="row my-3">
+        <div class="col-6"><b>PHONE:</b></div>
+        <div class="col-6">{{ profile.phone }}</div>
+      </div><br>
+
+      <div class="row my-3">
+        <div class="col-6"><b>ADDRESS:</b></div>
+        <div class="col-6">{{ profile.address }}</div>
+      </div><br>
+
+      <div class="row my-3">
+        <div class="col-6"><b>DEPARTMENT:</b></div>
+        <div class="col-6">{{ profile.department }}</div>
+      </div><br>
+    </div>
+
+    <!-- Company Info -->
+    <div class="col-md-4 col-sm-12 text-center" style="background-color:#f5f1da;"><br>
+      <div class="row my-3">
+        <div class="col-6"><b>COMPANY NAME:</b></div>
+        <div class="col-6">{{ profile.company_name }}</div>
+      </div><br>
+
+      <div class="row my-3">
+        <!-- <div class="col-6"><b>JOINED ON:</b></div>
+        <div class="col-6">{{ profile.created_at|date:"d M Y" }}</div> -->
+      </div><br>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

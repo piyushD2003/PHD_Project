@@ -1,0 +1,88 @@
+{% extends 'labtest/base.html' %}
+{% load static %}
+
+{% block labtest_base %}
+<div class="container" style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center;">
+  <h1 style="font-family:'Ubuntu'; font-size: 3rem; text-align: center; color: rgb(92, 46, 13);">My Profile</h1>
+  <button class="edit-option-buttons" style="font-size: 18px; float: right;">
+      <a href="{% url 'labtest:edit_labstaff_profile' %}">Edit Profile</a>
+  </button>
+</div>
+
+<!-- Display Messages -->
+<!-- {% if messages %}
+  {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} col-md-6 mx-auto">{{ message }}</div>
+  {% endfor %}
+{% endif %} -->
+
+<div class="container" id="main-content" style="margin: 0 auto; width: 100%;">
+  <div class="row my-5">
+      <!-- Column 1 -->
+      <div class="col-md-4 col-sm-12 text-center hi" style="background-color: #f5f1da;"><br>
+          {% if profile.profile_picture %}
+              <img class="profile-photo" src="{{ profile.profile_picture.url }}" alt="Profile Picture"><br><br>
+          {% else %}
+              <i class="fas fa-user-circle fa-9x text-muted"></i><br><br>
+          {% endif %}
+          <div class="row my-3 align-items-center">
+              <div class="col-6">
+                  <div class="profile-field"><b>FULL NAME:</b></div>
+              </div>
+              <div class="col-6">
+                  <div class="profile-content">{{ profile.full_name }}</div>
+              </div>
+          </div><br>
+          <div class="row my-3">
+              <div class="col-lg-5 profile-content"><b>AGE:</b></div>
+              <div class="col-lg-7 profile-content">{{ profile.age }}</div>
+          </div><br>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="col-md-4 col-sm-12 text-center" style="background-color:#f5f1da;"><br>
+          <div class="row my-3">
+              <div class="col-6"><b>USERNAME:</b></div>
+              <div class="col-6 profile-content">{{ request.user.username }}</div>
+          </div><br>
+          <div class="row my-3">
+              <div class="col-lg-6"><b>EMAIL:</b></div>
+              <div class="col-lg-6 profile-content">{{ profile.email }}
+</div>
+          </div><br>
+          <div class="row my-3">
+              <div class="col-lg-6"><b>QUALIFICATION:</b></div>
+              <div class="col-lg-6 profile-content">{{ profile.qualification }}</div>
+          </div><br>
+          <div class="row my-3">
+              <div class="col-lg-6"><b>ADDRESS:</b></div>
+              <div class="col-lg-6 profile-content">{{ profile.address }}</div>
+          </div><br>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="col-md-4 col-sm-12 text-center" style="background-color:#f5f1da;"><br>
+          <div class="row my-3">
+              <div class="col-lg-6"><b>PHONE:</b></div>
+              <div class="col-lg-6 profile-content">{{ profile.phone }}</div>
+          </div><br>
+          <div class="row my-3">
+              <div class="col-lg-6"><b>GENDER:</b></div>
+              <div class="col-lg-6 profile-content">{{ profile.gender }}</div>
+          </div><br>
+          <div class="row my-3">
+              <div class="col-lg-6"><b>CLINIC:</b></div>
+              <div class="col-lg-6 profile-content">{{ profile.clinic.name }}</div>
+          </div><br>
+
+      </div>
+
+      
+  </div>
+  <div class="text-center mb-4">
+            <a href="{% url 'labtest:labtest_dashboard' %}" class="btn btn-info">Go to Dashboard</a>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

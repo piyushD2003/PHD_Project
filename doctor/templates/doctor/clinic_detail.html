@@ -1,0 +1,19 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+{% block doctorbase %}
+
+<div class="container py-4">
+    <h2>Clinic Details</h2>
+    <div class="card p-4">
+        <h3>{{ clinic.name }}</h3>
+        <p><strong>City:</strong> {{ clinic.city }}</p>
+        <p><strong>Address:</strong> {{ clinic.address }}</p>
+        <p><strong>Phone:</strong> {{ clinic.phone }}</p>
+        <!-- Add more clinic fields as needed -->
+
+        <a href="{% url 'doctor:edit_clinic' clinic.id %}" class="btn btn-primary">Edit Clinic</a>
+        <a href="{% url 'doctor:clinic_list' %}" class="btn btn-secondary">Back to Clinics</a>
+    </div>
+</div>
+
+{% endblock %}

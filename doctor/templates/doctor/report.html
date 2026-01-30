@@ -1,0 +1,120 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+{% load static %}
+
+<div class="container py-4" id="main-content">
+    <div class="card mx-auto">
+        <div class="card-body">
+
+            <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Add a New Record</h1>
+
+            <form class="" action="{% url 'doctor:addReport'%}" method="POST">
+                {% csrf_token %}
+                
+                <input type="hidden" name="docid" value="{{ details.docid }}">
+                <input type="hidden" name="patid" value="{{ details.patid }}">
+                <input type="hidden" name="doctor_name" value="{{ details.doctor_name }}">
+                
+                <p style="font-size: 25px;"><span><b>Doctor Name: </b>{{ details.doctor_name }}</span><span style="float: right;"><b>Date: </b>{{ details.date }}</span></p>
+                
+                <!-- Symptoms -->
+                <div class="form-group">
+                    <label for="symptoms"><strong>Symptoms</strong></label>
+                    <input type="text" class="form-control" name="symptoms" id="symptoms" required placeholder="e.g., Fever, Cough">
+                </div>
+                
+                <!-- Diagnosis -->
+                <div class="form-group">
+                    <label for="diagnosis"><strong>Diagnosis</strong></label>
+                    <input type="text" class="form-control" name="diagnosis" id="diagnosis" required placeholder="e.g., Influenza (Flu)">
+                </div>
+                
+                <hr>
+
+                <!-- ================================================================= -->
+                <!-- NEW DYNAMIC PRESCRIPTION SECTION -->
+                <!-- ================================================================= -->
+                <h4>Prescription</h4>
+                
+                <div id="prescription-container">
+                    <!-- This is the template row that will be cloned -->
+                    <div class="form-row align-items-center prescription-row mb-2">
+                        <div class="col-md-5">
+                            <label class="sr-only">Medicine</label>
+                            <select name="medicine" class="form-control" required>
+                                <option value="" selected disabled>-- Select Medicine --</option>
+                                {% for med in details.medicines %}
+                                    <option value="{{ med.id }}">{{ med }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="sr-only">Quantity</label>
+                            <input type="number" name="quantity" class="form-control" placeholder="Quantity" min="1" required>
+                        </div>
+                        <div class="col-md-4">
+                             <label class="sr-only">Instructions</label>
+                            <input type="text" name="instructions" class="form-control" placeholder="Instructions (e.g., 1 tablet twice a day)">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger remove-row-btn">X</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" id="add-row-btn" class="btn btn-info btn-sm mt-2">+ Add Another Medicine</button>
+                <!-- ================================================================= -->
+                <!-- END OF NEW SECTION -->
+                <!-- ================================================================= -->
+                
+                <hr>
+
+                <!-- Additional Precautions -->
+                <div class="form-group mt-3">
+                    <label for="additional_precautions"><strong>Additional Precautions</strong></label>
+                    <input type="text" class="form-control" placeholder="e.g., Take rest, drink warm water" name="additional_precautions">
+                </div>
+
+                <button class="btn btn-success mt-3" type="submit">Submit Record</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addRowBtn = document.getElementById('add-row-btn');
+    const container = document.getElementById('prescription-container');
+
+    // Function to add a new row
+    addRowBtn.addEventListener('click', function() {
+        // Get the first row as a template
+        const firstRow = container.querySelector('.prescription-row');
+        // Clone it
+        const newRow = firstRow.cloneNode(true);
+        // Clear the values of the new row
+        newRow.querySelector('select[name="medicine"]').value = '';
+        newRow.querySelector('input[name="quantity"]').value = '';
+        newRow.querySelector('input[name="instructions"]').value = '';
+        // Append the new row to the container
+        container.appendChild(newRow);
+    });
+
+    // Function to remove a row (using event delegation)
+    container.addEventListener('click', function(e) {
+        // Check if a remove button was clicked
+        if (e.target && e.target.classList.contains('remove-row-btn')) {
+            // Get the parent row
+            const row = e.target.closest('.prescription-row');
+            // Prevent removing the last row
+            if (container.querySelectorAll('.prescription-row').length > 1) {
+                row.remove();
+            } else {
+                alert("You cannot remove the last medicine row.");
+            }
+        }
+    });
+});
+</script>
+
+{% endblock %}

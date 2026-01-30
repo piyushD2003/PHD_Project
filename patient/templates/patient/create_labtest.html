@@ -1,0 +1,27 @@
+{% extends "patient/base.html" %} 
+{% block patient_base %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Submit Your Lab Test Request</h3>
+        </div>
+        <div class="card-body">
+
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <p>Please fill out your lab test request details below. It will be sent for review by the lab staff.</p>
+
+                
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary mt-3">Submit for Review</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends 'patient/base.html' %}
+
+{% block patient_base %}
+{% load static %}
+
+<div class="container" id="main-content" style="margin: 0 auto;">
+    <div class="row dashboard-content">
+        <div class="col">
+            <h2>Current Medication </h2>
+            <div class="medical-history-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+                {% for report in Reports%}
+                    <div class="prescription" style="background: #fff7c8; padding: 1.5em; border: 1px solid #ddd; border-radius: 5px;">
+                        <p style="font-size: x-large;">
+                            <span><b>Doctor: </b> {{ report.doctor_name }}</span>
+                            <span style="float: right;"><b>Date: </b>{{ report.date }}</span>
+                        </p>
+    
+                        <p><b>Symptoms: </b>{{ report.Symptoms }}</p>
+                        <p><b>Diagnosis: </b>{{ report.diagnosis }}</p>
+    
+                        <!-- Check if a prescription exists for this record -->
+                        {% if report.prescription %}
+                            <h5 class="mt-3">Prescribed Medication:</h5>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Quantity</th>
+                                        <th>Instructions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop through the items of the linked prescription -->
+                                    {% for item in report.prescription.items.all %}
+                                    <tr>
+                                        <td>{{ item.medicine.name }} ({{ item.medicine.brand }})</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.instructions }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p class="text-muted">No medication was prescribed for this record.</p>
+                        {% endif %}
+                        
+                        <p class="mt-2"><strong>Additional Precautions:</strong> {{ report.additional_precautions }}</p>
+                    </div>
+                {%endfor%}
+            </div>
+    </div>
+    <div class="row dashboard-content">
+        <h2>Recent Lab reports </h2>
+        <div class="container" id="main-content">
+        <div class="row my-4">
+            <div class="col" style="margin: 0 auto;">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Report Name</th>
+                                <th>Report Date</th>
+                                <th>Preview</th>
+                                <th>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in lab_rec %}
+                                <tr>
+                                    <td>{{ report.report_name }}</td>
+                                    <td>{{ report.report_date }}</td>
+                                    <td><a class="prev-download-btn" href="{{report.labreportfile.url}}" target="_blank" >Preview</a></td>
+                                    <td><a class="prev-download-btn" href="{{report.labreportfile.url}}" download>Download</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="container">
+            <button class="edit-option-buttons" style="font-size: 18px;">
+                <a href="{% url 'patient:labreports' %}">View reports</a>
+            </button>
+        </div>
+        </div>
+        </div>
+     <div class="row dashboard-content mt-4">
+    <h2>Doctor-Prescribed Lab Tests</h2>
+    {% if lab_tests %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Test Type</th>
+                        <th>Status</th>
+                        <th>Findings</th>
+                        <th>Diagnosis</th>
+                        <th>Report File</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Requested By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in lab_tests %}
+                    <tr>
+                        <td>{{ test.test_type }}</td>
+                        <td>
+                            {% if test.status == "Approved" %}
+                                <span class="badge badge-success">{{ test.status }}</span>
+                            {% elif test.status == "Rejected" %}
+                                <span class="badge badge-danger">{{ test.status }}</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ test.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ test.findings|default:"-" }}</td>
+                        <td>{{ test.diagnosis|default:"-" }}</td>
+                        <td>
+                            {% if test.labreportfile %}
+                                <a href="{{ test.labreportfile.url }}" target="_blank">Preview</a> |
+                                <a href="{{ test.labreportfile.url }}" download>Download</a>
+                            {% else %}
+                                No file
+                            {% endif %}
+                        </td>
+                        <td>₹ {{ test.amount|default:"0" }}</td>
+                        <td>{{ test.test_date }}</td>
+                        <td>{{ test.doctor.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No lab tests have been added yet.</p>
+    {% endif %}
+</div>
+
+<div class="row dashboard-content mt-4">
+    <h2>Lab Tests Uploaded by Lab Staff</h2>
+
+    {% if lab_tests %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Test Type</th>
+                        <th>Status</th>
+                        <th>Findings</th>
+                        <th>Diagnosis</th>
+                        <th>Report File</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Requested By</th>
+                        <th>Uploaded By</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in lab_tests %}
+                        {% if test.status == "Approved" %}
+                            <tr>
+                                <td>{{ test.test_type }}</td>
+                                <td><span class="badge badge-success">{{ test.status }}</span></td>
+                                <td>{{ test.findings|default:"-" }}</td>
+                                <td>{{ test.diagnosis|default:"-" }}</td>
+                                <td>
+                                    {% if test.report_file %}
+                                        <a href="{{ test.report_file.url }}" target="_blank">Preview</a> |
+                                        <a href="{{ test.report_file.url }}" download>Download</a>
+                                    {% else %}
+                                        No file
+                                    {% endif %}
+                                </td>
+                                <td>₹ {{ test.amount|default:"0" }}</td>
+                                <td>{{ test.test_date }}</td>
+                                <td>{{ test.doctor.name }}</td>
+                                <td>
+                                    {% if test.labstaff %}
+                                        {{ test.labstaff.user.get_full_name|default:test.labstaff.user.username }}
+                                    {% else %}
+                                        Not Available
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'patient:patient_labtest_detail' test.id %}" class="btn btn-sm btn-outline-info">View</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">No approved lab tests uploaded by lab staff.</p>
+    {% endif %}
+</div>
+
+        <!-- <div class="container">
+            <button class="edit-option-buttons" style="font-size: 18px;">
+                <a href="{% url 'patient:labreports' %}">View reports</a>
+            </button>
+        </div> -->
+    </div>
+    <div class="row dashboard-content">
+    <div class="col">
+        <h2>General Vitals</h2>
+        <div class="medical-history-container" style="max-height: 500px; overflow-y: auto; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+            <div class="prescription" style="background: #fff7c8; padding: 1.5em; border: 1px solid #ddd; border-radius: 5px;">
+                <p style="font-size: x-large;">
+                    <b>Patient Vitals Overview</b>
+                </p>
+                <p><b>Height:</b> {{ vitals.Height_in_Centimeters }} cm</p>
+                <p><b>Weight:</b> {{ vitals.Weight_in_kilograms }} kg</p>
+                <p><b>Smoker:</b> {{ vitals.Smoker_or_not }}</p>
+                <p><b>Allergies:</b> {{ vitals.Allergies }}</p>
+                <p><b>Chronic Conditions:</b> {{ vitals.Chronic_conditions }}</p>
+
+                <div class="mt-3">
+                    <a href="{% url 'patient:editPatientVitals' %}" class="btn btn-outline-info">Edit Info</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- <div class="container">
+            <button class="edit-option-buttons" style="font-size: 18px; left: 50%;">
+                <a href="{% url 'patient:editPatientVitals' %}">Edit info</a>
+            </button>
+        </div> -->
+    </div>
+</div>
+
+{% endblock %}

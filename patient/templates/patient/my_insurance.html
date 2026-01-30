@@ -1,0 +1,68 @@
+<!-- in templates/patient/my_insurance.html -->
+
+{% extends "patient/base.html" %}
+
+{% block patient_base %}
+<div class="tabcontent" id="myPatients" >
+    <div id="main-content">
+        <div class="container">
+            <p style="text-align: center;font-family:'Ubuntu';font-size: 3rem;text-align: center; color: rgb(92, 46, 13); ">My Insurance Policies</p>
+        </div>
+        <div class="container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3>My Insurance Policies</h3>
+                    <a href="{% url 'patient:create_insurance' %}" class="btn btn-primary btn-sm">Add New Insurance</a>
+                </div>
+                <div class="card-body">
+
+                    {% if insurance_policies %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Provider</th>
+                                        <th scope="col">Policy Number</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Valid Until</th>
+                                        <th scope="col">Document</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for policy in insurance_policies %}
+                                        <tr>
+                                            <td>{{ policy.insurance_provider.company_name }}</td>
+                                            <td>{{ policy.policy_number }}</td>
+                                            <td>
+                                                {% if policy.insurance_status == 'Approved' %}
+                                                    <span class="badge badge-success">{{ policy.insurance_status }}</span>
+                                                {% elif policy.insurance_status == 'Rejected' %}
+                                                    <span class="badge badge-danger">{{ policy.insurance_status }}</span>
+                                                {% else %}
+                                                    <span class="badge badge-warning">{{ policy.insurance_status }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ policy.valid_to|date:"d M, Y" }}</td>
+                                            <td>
+                                                {% if policy.policy_document %}
+                                                    <a href="{{ policy.policy_document.url }}" target="_blank">View</a>
+                                                {% else %}
+                                                    <span>Not Provided</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>You have not submitted any insurance policies yet.</p>
+                        <p>Click the "Add New Insurance" button to get started.</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

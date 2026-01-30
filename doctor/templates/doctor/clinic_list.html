@@ -1,0 +1,13 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+<div class="container">
+    <h1>Clinic List</h1>
+    <ul>
+        {% for clinic in clinics %}
+            <li>{{ clinic.name }} - {{ clinic.city }}</li>
+        {% empty %}
+            <li>No clinics found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

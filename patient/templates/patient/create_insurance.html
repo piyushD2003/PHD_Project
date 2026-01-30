@@ -1,0 +1,31 @@
+{% extends "patient/base.html" %}  <!-- Assuming you have a base template -->
+
+{% block patient_base %}
+<div class="tabcontent" id="myPatients" >
+    <div id="main-content">
+        <div class="container">
+            <p style="text-align: center;font-family:'Ubuntu';font-size: 3rem;text-align: center; color: rgb(92, 46, 13); ">Submit Your Insurance Details</p>
+        </div>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- Form starts here -->
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <p>Please fill out your insurance policy information below. It will be sent for review.</p>
+                        
+                        <!-- This will render all form fields as paragraphs -->
+                        {{ form.as_p }}
+
+                        <button type="submit" class="btn btn-primary mt-3">Submit for Review</button>
+                    </form>
+                    <!-- Form ends here -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

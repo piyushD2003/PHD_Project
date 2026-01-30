@@ -1,0 +1,85 @@
+{% extends 'medical/base.html' %}
+{% load static %}
+
+{% block medical_base %}
+<div class="tabcontent" id="myPatients">
+    <div id="main-content" class="row justify-content-center">
+        <div class="container">
+            <p style="text-align: center;font-family:'Ubuntu';font-size: 3rem;text-align: center; color: rgb(92, 46, 13); ">Medicne's Form</p>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <!-- The title is passed from the view -->
+                    <h3 class="mb-0">{{ title }}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Display any form errors at the top -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- Medicine Name -->
+                        <div class="form-group">
+                            <label for="{{ form.name.id_for_label }}">Medicine Name</label>
+                            <input type="text" class="form-control {% if form.name.errors %}is-invalid{% endif %}" name="name" id="{{ form.name.id_for_label }}" value="{{ form.name.value|default_if_none:'' }}" placeholder="e.g., Paracetamol" required>
+                            {% for error in form.name.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Brand -->
+                        <div class="form-group">
+                            <label for="{{ form.brand.id_for_label }}">Brand</label>
+                            <input type="text" class="form-control {% if form.brand.errors %}is-invalid{% endif %}" name="brand" id="{{ form.brand.id_for_label }}" value="{{ form.brand.value|default_if_none:'' }}" placeholder="e.g., Crocin" required>
+                            {% for error in form.brand.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Strength -->
+                        <div class="form-group">
+                            <label for="{{ form.strength.id_for_label }}">Strength</label>
+                            <input type="text" class="form-control {% if form.strength.errors %}is-invalid{% endif %}" name="strength" id="{{ form.strength.id_for_label }}" value="{{ form.strength.value|default_if_none:'' }}" placeholder="e.g., 500mg" required>
+                             {% for error in form.strength.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Price Per Unit -->
+                        <div class="form-group">
+                            <label for="{{ form.price_per_unit.id_for_label }}">Price per Unit (₹)</label>
+                            <input type="number" step="0.01" class="form-control {% if form.price_per_unit.errors %}is-invalid{% endif %}" name="price_per_unit" id="{{ form.price_per_unit.id_for_label }}" value="{{ form.price_per_unit.value|default_if_none:'' }}" required>
+                             {% for error in form.price_per_unit.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Stock Quantity -->
+                        <div class="form-group">
+                            <label for="{{ form.stock_quantity.id_for_label }}">Stock Quantity</label>
+                            <input type="number" class="form-control {% if form.stock_quantity.errors %}is-invalid{% endif %}" name="stock_quantity" id="{{ form.stock_quantity.id_for_label }}" value="{{ form.stock_quantity.value|default_if_none:'' }}" required>
+                             {% for error in form.stock_quantity.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <hr>
+                        <div class="text-right">
+                             <a href="{% url 'medical:medicine_list' %}" class="btn btn-secondary">Cancel</a>
+                             <button type="submit" class="btn btn-success">Save Medicine</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

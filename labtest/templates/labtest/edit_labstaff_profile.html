@@ -1,0 +1,98 @@
+{% extends 'labtest/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block labtest_base %}
+
+<div class="container-fluid py-4">
+    <div class="card mx-auto" style="width: fit-content;">
+        <div class="card-body">
+            <h1 style="font-family: Ubuntu, sans-serif; text-align: center;" class="mb-3">Edit Lab Staff Profile</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Full Name -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Full Name" name="full_name" value="{{ form.full_name.value }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+91</div>
+                            </div>
+                            <input type="tel" class="form-control" pattern="[1-9]{1}[0-9]{9}" placeholder="Phone Number" name="phone" value="{{ form.phone.value }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ form.email.value }}">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <input type="text" class="form-control" placeholder="Address" name="address" value="{{ form.address.value }}">
+                    </div>
+                </div>
+
+                <!-- Qualification -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <input type="text" class="form-control" placeholder="Qualification" name="qualification" value="{{ form.qualification.value }}">
+                    </div>
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <select name="gender" class="form-control">
+                            <option value="">Select Gender</option>
+                            <option value="Male" {% if form.gender.value == "Male" %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if form.gender.value == "Female" %}selected{% endif %}>Female</option>
+                            <option value="Other" {% if form.gender.value == "Other" %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <input type="number" class="form-control" placeholder="Age" name="age" value="{{ form.age.value }}">
+                    </div>
+                </div>
+
+                <!-- Profile Picture -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="profilepicinput" name="profile_picture">
+                            <label class="custom-file-label" for="profilepicinput">Profile Picture</label>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    $(".custom-file-input").on("change", function () {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+
+                <button class="btn btn-success" type="submit">Save</button>
+                <button class="btn btn-secondary" type="reset">Reset</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

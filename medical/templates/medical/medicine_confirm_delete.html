@@ -1,0 +1,38 @@
+{% extends 'medical/base.html' %}
+{% load static %}
+
+{% block medical_base %}
+<div class="tabcontent" id="myPatients"  class="container mt-5">
+    <div id="main-content" class="row justify-content-center">
+        <div class="container col-md-8" style="margin: auto;">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Confirm Deletion</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Are you sure you want to delete the medicine:</p>
+                    
+                    <h4 class="text-center my-4">"{{ medicine.name }} ({{ medicine.brand }}) - {{ medicine.strength }}"</h4>
+                    
+                    <p>This action cannot be undone. All information associated with this medicine will be permanently removed from the catalog.</p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between mt-4">
+                            <!-- Link to go back if they change their mind -->
+                            <a href="{% url 'medical:medicine_list' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> No, take me back
+                            </a>
+                            
+                            <!-- The button that submits the form and performs the delete -->
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Yes, I'm sure. Delete it.
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

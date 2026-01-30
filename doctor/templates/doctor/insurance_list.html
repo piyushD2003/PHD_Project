@@ -1,0 +1,39 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Insurance List</h2>
+
+    {% if insurances %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Company Name</th>
+                    <th>Policy Number</th>
+                    <th>Coverage</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for insurance in insurances %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ insurance.insurance_provider.company_name }}</td>
+                    <td>{{ insurance.policy_number }}</td>
+                    <td>{{ insurance.coverage_amount }}</td>
+                    <td>{{ insurance.patient.phone }}</td>
+                    <td>{{ insurance.insurance_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center">No insurance records found.</p>
+    {% endif %}
+</div>
+{% endblock %}

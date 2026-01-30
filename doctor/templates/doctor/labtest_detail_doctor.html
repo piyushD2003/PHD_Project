@@ -1,0 +1,66 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+
+<div class="container py-5">
+    <div class="card shadow-lg mx-auto" style="max-width: 900px;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4" style="font-family: 'Ubuntu'; color: #5c2e0d;">
+                Lab Test Details: {{ lab_test.test_type }}
+            </h2>
+
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Status</th>
+                        <td>
+                            <span class="badge badge-success">{{ lab_test.get_status_display }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Findings</th>
+                        <td>{{ lab_test.findings|default:"Not provided" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Diagnosis</th>
+                        <td>{{ lab_test.diagnosis|default:"Not provided" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Amount</th>
+                        <td>₹{{ lab_test.amount|default:"0" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Test Date</th>
+                        <td>{{ lab_test.test_date|date:"d M, Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Updated By</th>
+                        <td>
+                            {% if lab_test.labstaff %}
+                                {{ lab_test.labstaff.user.get_full_name }}
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Report File</th>
+                        <td>
+                            {% if lab_test.report_file %}
+                                <a href="{{ lab_test.report_file.url }}" target="_blank" class="btn btn-outline-primary btn-sm">View</a>
+                                <a href="{{ lab_test.report_file.url }}" download class="btn btn-outline-success btn-sm">Download</a>
+                            {% else %}
+                                No file uploaded
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'doctor:pat_profile' lab_test.patient.id %}" class="btn btn-secondary">← Back to Patient</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

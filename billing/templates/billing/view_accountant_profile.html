@@ -1,0 +1,62 @@
+{% extends 'billing/base.html' %}
+{% load static %}
+
+{% block billing_base %}
+
+<div class="container">
+  <div class="container" style="width: 100%;max-width: 1200px;margin: 0 auto;padding: 20px;text-align: center;z-index: -1;">
+    <h1 style="font-family:'Ubuntu'; font-size: 2.5rem; color: rgb(92, 46, 13);">Accountant Profile</h1>
+    <button class="edit-option-buttons btn btn-outline-primary" style="font-size: 18px; float: right;"
+        <a href="#" style="text-decoration: none;">Edit Profile</a>
+    </button>
+  </div>
+</div>
+
+<div class="container" id="main-content" style="width: 100%; margin: 0 auto;">
+  <div class="row my-5">
+
+    <!-- Column 1: Picture + Basic Info -->
+    <div class="col-md-4 col-sm-12 text-center" style="background-color: #f5f1da; padding: 20px;">
+        {% if profile.profile_pic %}
+          <img class="rounded-circle" src="{{ profile.profile_pic.url }}" alt="Profile Picture" style="width: 200px; height: 200px; object-fit: cover;"><br><br>
+        {% else %}
+            <i class="fas fa-user-circle fa-9x text-muted mb-3"></i><br><br>
+        {% endif %}
+
+        <div class="row my-3">
+            <div class="col-6 text-right"><b>USERNAME:</b></div>
+            <div class="col-6 text-left">{{ profile.user.username }}</div>
+        </div>
+    </div>
+
+    <!-- Column 2: Contact & Address -->
+    <div class="col-md-4 col-sm-12 text-center" style="background-color:#f5f1da; padding: 20px;"><br>
+      <div class="row my-3">
+        <div class="col-6 text-right"><b>PHONE:</b></div>
+        <div class="col-6 text-left">{{ profile.phone }}</div>
+      </div><br>
+      <div class="row my-3">
+        <div class="col-6 text-right"><b>EMAIL:</b></div>
+        <div class="col-6 text-left">{{ profile.email }}</div>
+      </div><br>
+      <div class="row my-3">
+        <div class="col-6 text-right"><b>ADDRESS:</b></div>
+        <div class="col-6 text-left">{{ profile.address }}</div>
+      </div><br>
+    </div>
+
+    <!-- Column 3: Professional Info -->
+    <div class="col-md-4 col-sm-12 text-center" style="background-color:#f5f1da; padding: 20px;"><br>
+      <div class="row my-3">
+        <div class="col-6 text-right"><b>DEPARTMENT:</b></div>
+        <div class="col-6 text-left">{{ profile.department }}</div>
+      </div><br>
+      <div class="row my-3">
+        <div class="col-6 text-right"><b>ASSIGNED CLINIC:</b></div>
+        <div class="col-6 text-left">{{ profile.clinic.name }}</div>
+      </div><br>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

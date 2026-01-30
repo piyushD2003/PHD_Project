@@ -1,0 +1,39 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lab Test List</h2>
+
+    {% if labtests %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Test Name</th>
+                    <th>Status</th>
+                    <th>Requested By</th>
+                    <th>Patient</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for labtest in labtests %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ labtest.test_name }}</td>
+                    <td>{{ labtest.status }}</td>
+                    <td>{{ labtest.doctor.name }}</td>
+                    <td>{{ labtest.patient.name }}</td>
+                    <td>₹{{ labtest.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center">No lab tests found.</p>
+    {% endif %}
+</div>
+{% endblock %}

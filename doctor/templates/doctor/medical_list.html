@@ -1,0 +1,39 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Medical Records</h2>
+
+    {% if medical_records %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Diagnosis</th>
+                    <th>Symptoms</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in medical_records %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.patient_name }}</td>
+                    <td>{{ record.doctor_name }}</td>
+                    <td>{{ record.diagnosis }}</td>
+                    <td>{{ record.Symptoms }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center">No medical records found.</p>
+    {% endif %}
+</div>
+{% endblock %}

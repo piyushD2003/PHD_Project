@@ -1,0 +1,43 @@
+{% extends 'patient/base.html' %}
+{% block patient_base %}
+
+<div class="container py-4">
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">{{ lab_test.test_type }}</h3>
+
+            <p><strong>Status:</strong> {{ lab_test.get_status_display }}</p>
+            <p><strong>Test Date:</strong> {{ lab_test.test_date }}</p>
+            <p><strong>Findings:</strong><br> {{ lab_test.findings|default:"-" }}</p>
+            
+            {% if lab_test.diagnosis %}
+                <p><strong>Diagnosis:</strong><br> {{ lab_test.diagnosis }}</p>
+            {% endif %}
+
+            {% if lab_test.amount %}
+                <p><strong>Amount:</strong> ₹{{ lab_test.amount }}</p>
+            {% endif %}
+
+            {% if lab_test.doctor %}
+                <p><strong>Requested By:</strong> {{ lab_test.doctor.name }}</p>
+            {% endif %}
+
+            {% if lab_test.labstaff %}
+                <p><strong>Updated By:</strong> {{ lab_test.labstaff.user.get_full_name }}</p>
+            {% endif %}
+
+            {% if lab_test.report_file %}
+                <p><strong>Report File:</strong>
+                    <a href="{{ lab_test.report_file.url }}" target="_blank">View</a> |
+                    <a href="{{ lab_test.report_file.url }}" download>Download</a>
+                </p>
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <a href="{% url 'patient:patientRecords' %}" class="btn btn-secondary">Back to Records</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

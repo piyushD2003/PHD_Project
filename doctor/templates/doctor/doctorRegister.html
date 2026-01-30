@@ -1,0 +1,101 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block doctorbase %}
+
+<div class="container-fluid py-4" 
+    style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg' %}');
+           background-size: cover; 
+           background-repeat: no-repeat; 
+           background-position: center; 
+           height: 100vh; 
+           display: flex; 
+           align-items: center; 
+           justify-content: center;">
+    <div class="card mx-auto" style="width: 95%; max-width: 900px; padding: 30px;">
+        <div class="card-body" style="padding: 20px;">
+            <div class="row">
+                <div class="col-sm-5">
+                    <img src="{% static 'patient/Images/signup-img.jpg' %}" alt="" style="width: 100%; margin: auto;">
+                </div>
+                <div class="col-sm-7">
+                    <h2 style="font-family: Itim, cursive;" class="mb-4 card-title text-center">Create Your Account</h2>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- username -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user icon"></i>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Username" name="username">
+                            </div>
+                        </div>
+                        {% for error in form.username.errors %}
+                        <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+
+                        <!-- email -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-envelope icon"></i>
+                                    </div>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Email" name="email">
+                            </div>
+                        </div>
+                        {% for error in form.email.errors %}
+                        <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+
+                        <!-- password1 -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-key icon"></i>
+                                    </div>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Password" name="password1">
+                            </div>
+                            {% if form.password1.help_text %}
+                            <small style="color: grey">{{ form.password1.help_text|safe }}</small>
+                            {% endif %}
+                        </div>
+                        {% for error in form.password1.errors %}
+                        <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+
+                        <!-- password2 -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-key icon"></i>
+                                    </div>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Confirm Password" name="password2">
+                            </div>
+                            {% if form.password2.help_text %}
+                            <small style="color: grey">{{ form.password2.help_text|safe }}</small>
+                            {% endif %}
+                        </div>
+                        {% for error in form.password2.errors %}
+                        <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+
+                        <button class="btn btn-success w-100" type="submit">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

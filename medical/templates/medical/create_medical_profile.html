@@ -1,0 +1,76 @@
+{% extends 'medical/base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block medical_base %}
+<div class="container-fluid py-4" style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg'%}');
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-position: center; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+    <div class="card mx-auto" style="width: 95%; max-width: 700px; padding: 30px;">
+        <div class="card-body" style="padding: 20px;">
+            <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Complete Your Professional Profile</h1>
+
+            <form method="POST" enctype="multipart/form-data" action="{% url 'medical:create_medical_profile' %}">
+                {% csrf_token %}
+
+                <!-- pharmacy_name -->
+                <div class="form-group">
+                    <label for="id_pharmacy_name">Pharmacy Name</label>
+                    <input type="text" class="form-control" placeholder="Enter the name of your pharmacy or medical store" name="pharmacy_name" id="id_pharmacy_name" required>
+                </div>
+                
+                <!-- phone -->
+                <div class="form-group">
+                    <label for="id_phone">Phone Number</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">+91</div>
+                        </div>
+                        <input type="tel" class="form-control" placeholder="10-digit mobile number" name="phone" id="id_phone" required oninput="this.value = this.value.replace(/\D/g, '').substring(0, 10)" maxlength="10">
+                    </div>
+                </div>
+
+                <!-- email -->
+                <div class="form-group">
+                    <label for="id_email">Contact Email</label>
+                    <input type="email" class="form-control" placeholder="Official contact email" name="email" id="id_email" required>
+                </div>
+
+                <!-- address -->
+                <div class="form-group">
+                    <label for="id_address">Address</label>
+                    <textarea name="address" class="form-control" placeholder="Full address of the pharmacy" id="id_address" rows="3" required></textarea>
+                </div>
+                
+                <!-- profile_pic -->
+                <div class="form-group">
+                    <label>Profile Picture (Optional)</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="profilepicinput" name="profile_pic">
+                        <label class="custom-file-label" for="profilepicinput">Choose file...</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100 mt-3" type="submit">Save Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    document.querySelector(".custom-file-input").addEventListener("change", function() {
+        var fileName = this.value.split("\\").pop();
+        var label = this.nextElementSibling;
+        if (label.classList.contains("custom-file-label")) {
+            label.innerHTML = fileName;
+        }
+    });
+</script>
+{% endblock %}

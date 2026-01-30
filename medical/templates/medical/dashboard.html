@@ -1,0 +1,49 @@
+{% extends 'medical/base.html' %}
+{% load static %}
+
+{% block medical_base %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Pending Prescriptions</h2>
+        <span class="badge badge-primary badge-pill" style="font-size: 1rem;">
+            {{ pending_prescriptions.count }}
+        </span>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if pending_prescriptions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Patient Name</th>
+                                <th scope="col">Prescribed By</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for prescription in pending_prescriptions %}
+                            <tr>
+                                <td>{{ prescription.created_at|date:"Y-m-d" }}</td>
+                                <td>{{ prescription.patient.name }}</td>
+                                <td>Dr. {{ prescription.doctor.name }}</td>
+                                <td>
+                                    <!-- This button will link to the detail page we will create next -->
+                                    <a href="{% url 'medical:prescription_detail' pk=prescription.id %}" class="btn btn-info btn-sm">View Details</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center" role="alert">
+                    There are no pending prescriptions at the moment.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

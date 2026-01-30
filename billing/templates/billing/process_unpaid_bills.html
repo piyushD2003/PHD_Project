@@ -1,0 +1,85 @@
+{% extends 'billing/base.html' %}
+{% load static %}
+
+{% block billing_base %}
+<div class="tabcontent" id="myPatients" >
+    <div id="main-content">
+        {% comment %} <div class="container-fluid mt-4" style="margin: 0 auto; width: 90%"> {% endcomment %}
+            <div class="container">
+                <p style="text-align: center;font-family:'Ubuntu';font-size: 3rem;text-align: center; color: rgb(92, 46, 13); ">Process Unpaid Bills</p>
+            </div>
+
+            <!-- Filter Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-filter"></i> Filter Bills
+                </div>
+                <div class="card-body">
+                    <form method="GET" action="{% url 'billing:process_unpaid_bills' %}">
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <input type="text" name="patient_name" class="form-control" placeholder="Patient Username..." value="{{ filter_values.patient_name }}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <input type="text" name="doctor_name" class="form-control" placeholder="Doctor Name..." value="{{ filter_values.doctor_name }}">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <select name="billing_type" class="form-control">
+                                    <option value="">-- All Types --</option>
+                                    {% for value, display in billing_type_choices %}
+                                        <option value="{{ value }}" {% if filter_values.billing_type == value %}selected{% endif %}>{{ display }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button type="submit" class="btn btn-primary btn-block">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bills Table -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Bill ID</th>
+                                    <th>Date</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Bill Type</th>
+                                    <th class="text-right">Amount (₹)</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for bill in bills %}
+                                <tr>
+                                    <td>{{ bill.id }}</td>
+                                    <td>{{ bill.date }}</td>
+                                    <td>{{ bill.patient.username }}</td>
+                                    <td>{{ bill.doctor.name|default:"N/A" }}</td>
+                                    <td>{{ bill.get_billing_type_display }}</td>
+                                    <td class="text-right">{{ bill.total_amount|floatformat:2 }}</td>
+                                    <td class="text-center">
+                                        {# This button will link to the update page we will build next #}
+                                        <a href="{% url 'billing:update_bill' bill.pk %}" class="btn btn-sm btn-info">Update / Process</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">No unpaid bills match your criteria.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% comment %} </div> {% endcomment %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+
+{% extends 'insurance/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block insurance_base %}
+
+<div class="container-fluid py-4" style="
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center; 
+    height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;">
+
+    <div class="card mx-auto" style="width: 95%; max-width: 900px; padding: 30px;">
+        <div class="card-body" style="padding: 20px;">
+
+            <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Enter Insurance Officer Profile</h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Full Name -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <input type="text" class="form-control" name="name" placeholder="Full Name" value="{{ request.user.get_full_name }}">
+                    </div>
+                </div>
+
+                <!-- Department & Company -->
+                <div class="form-group row">
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <input type="text" class="form-control" name="department" placeholder="Department">
+                    </div>
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <input type="text" class="form-control" name="company_name" placeholder="Company Name">
+                    </div>
+                </div>
+
+                <!-- Phone & Email -->
+                <div class="form-group row">
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><div class="input-group-text">+91</div></div>
+                            <input type="tel" class="form-control" name="phone" placeholder="Phone Number"
+                                   oninput="this.value = this.value.replace(/\D/g, '').substring(0, 10)" maxlength="10">
+                        </div>
+                    </div>
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ request.user.email }}">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="form-group row">
+                    <div class="col-sm my-2 mx-auto">
+                        <textarea class="form-control" name="address" placeholder="Address" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Profile Picture -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="custom-file mb-3">
+                            <input type="file" class="custom-file-input" id="profilepicinput" name="profile_pic">
+                            <label class="custom-file-label" for="profilepicinput">Profile Picture</label>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    $(".custom-file-input").on("change", function () {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+
+                <button class="btn btn-success" type="submit">Save</button>
+                <button class="btn btn-secondary" type="reset">Reset</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

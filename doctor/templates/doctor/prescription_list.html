@@ -1,0 +1,37 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Prescription List</h2>
+
+    {% if prescriptions %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Doctor</th>
+                    <th>Patient</th>
+                    <th>Status</th>
+                    <th>Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prescription in prescriptions %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ prescription.doctor.name }}</td>
+                    <td>{{ prescription.patient.name }}</td>
+                    <td>{{ prescription.status }}</td>
+                    <td>{{ prescription.created_at|date:"d M Y, h:i A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center">No prescriptions found.</p>
+    {% endif %}
+</div>
+{% endblock %}

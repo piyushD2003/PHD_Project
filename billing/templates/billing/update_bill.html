@@ -1,0 +1,68 @@
+{% extends 'billing/base.html' %}
+{% load static %}
+
+{% block billing_base %}
+<div class="tabcontent" id="myPatients" >
+    <div id="main-content">
+        <div class="container">
+            <p style="text-align: center;font-family:'Ubuntu';font-size: 3rem;text-align: center; color: rgb(92, 46, 13); ">Bill</p>
+        </div>
+        <div class="row justify-content-center" style="margin: auto;">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Process Bill #{{ bill.id }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Display Bill Summary -->
+                        <div class="alert alert-secondary">
+                            <p class="mb-1"><strong>Patient:</strong> {{ bill.patient.username }}</p>
+                            <p class="mb-1"><strong>Bill Type:</strong> {{ bill.get_billing_type_display }}</p>
+                            <p class="mb-0"><strong>Amount:</strong> ₹{{ bill.total_amount|floatformat:2 }}</p>
+                        </div>
+
+                        <form method="POST">
+                            {% csrf_token %}
+                            
+                            <!-- Paid By -->
+                            <div class="form-group">
+                                <label for="{{ form.paid_by.id_for_label }}">Paid By</label>
+                                {{ form.paid_by }}
+                            </div>
+
+                            <!-- Insurance Claim Dropdown -->
+                            <div class="form-group">
+                                <label for="{{ form.insurance_claim.id_for_label }}">Assign to Insurance Claim</label>
+                                {{ form.insurance_claim }}
+                                <small class="form-text text-muted">
+                                    Only approved policies for this patient are shown. Select if "Paid By" is Insurance.
+                                </small>
+                            </div>
+                            
+                            <!-- Payment Method -->
+                            <div class="form-group">
+                                <label for="{{ form.payment_method.id_for_label }}">Payment Method</label>
+                                {{ form.payment_method }}
+                            </div>
+
+                            <!-- Paid Checkbox -->
+                            <div class="form-group form-check">
+                                {{ form.paid }}
+                                <label class="form-check-label" for="{{ form.paid.id_for_label }}">
+                                    Mark as Paid
+                                </label>
+                            </div>
+
+                            <hr>
+                            <div class="text-right">
+                                <a href="{% url 'billing:process_unpaid_bills' %}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-success">Update Bill</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

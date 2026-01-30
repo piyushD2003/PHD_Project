@@ -1,0 +1,9 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+<div class="container">
+    <h2>Medicine Detail</h2>
+    <p><strong>Name:</strong> {{ medicine.medicine_name }}</p>
+    <p><strong>Dosage:</strong> {{ medicine.dosage }}</p>
+    <p><strong>Instructions:</strong> {{ medicine.instructions }}</p>
+</div>
+{% endblock %}

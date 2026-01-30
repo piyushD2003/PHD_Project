@@ -1,0 +1,50 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+{% block doctorbase %}
+
+<div class="container-fluid py-4" 
+    style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg' %}');
+           background-size: cover; 
+           background-repeat: no-repeat; 
+           background-position: center; 
+           min-height: 100vh; 
+           display: flex; 
+           align-items: center; 
+           justify-content: center;">
+    <div class="card mx-auto" style="width: 95%; max-width: 900px; padding: 30px;">
+        <div class="card-body" style="padding: 20px;">
+            <h2 class="mb-4 card-title text-center" style="font-family: Itim, cursive;">Billing Records</h2>
+
+            {% if bills %}
+                <ul class="list-group">
+                    {% for bill in bills %}
+                        <a href="{% url 'billing:billing_detail' bill.id %}" class="text-decoration-none text-dark">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ bill.date }}</strong> - {{ bill.billing_type }}<br>
+                                    {% if bill.clinic %}
+                                        <small class="text-muted">Clinic: {{ bill.clinic.name }}</small>
+                                    {% else %}
+                                        <small class="text-muted text-danger">No clinic assigned</small>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    ₹{{ bill.total_amount }}
+                                    {% if bill.paid %}
+                                        <span class="badge bg-success">Paid</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Unpaid</span>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-center">No billing records found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,261 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grandstander" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu" />
+    <link rel="stylesheet" href="{% static 'centralapp/css_files/style.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'centralapp/Images/icon.png' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{% static 'centralapp/js/app.js' %}"></script>
+    <title>Medi-Connect</title>
+    
+</head>
+<body>
+    <script>
+        AOS.init();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="navstyle">
+        <a class="navbar-brand" href="{% url 'centralapp:mainpage' %}" style="font-family: Cinzel; font-size: 40px !important; color: white;">
+            Medi-Connect
+        </a>
+        <a href="marathi.html">
+            <button id="translateButton" class="btn btn-success" style="font-size: 20px;">मराठी</button>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto" id="navbar-list-items">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        For you and <br>your family &#x25BC;
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'centralapp:Inside_health_records' %}">What's in my health record</a>
+                        <a class="dropdown-item" href="{% url 'centralapp:patients_how_to_use' %}">How to use my health record</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        For healthcare <br>professionals &#x25BC;
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby ="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'centralapp:doc_how_to_use' %}">How to use the health record</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Know more <br>about diseases &#x25BC;
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'centralapp:Aids' %}">AIDS</a>
+                        <a class="dropdown-item" href="{% url 'centralapp:Cancer' %}">Cancer</a>
+                        <a class="dropdown-item" href="{% url 'centralapp:Heart_disorder' %}">Heart Disorders</a>
+                        <a class="dropdown-item" href="{% url 'centralapp:Hypertension' %}">Hypertension</a>
+                        <a class="dropdown-item" href="{% url 'centralapp:Diabetes' %}">Diabetes</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'centralapp:FAQS' %}">FAQs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'centralapp:About_us' %}">About us</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Hey {{request.user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        {% if request.user.patientprofile_set.first.usertype == 1 %}
+                            <a class="dropdown-item nav-link" href="{% url 'patient:patientProfile' %}" style="color: rgb(0, 0, 0)"> My Profile </a>
+                        {% elif request.user.patientprofile_set.first.usertype == 2 %}
+                            <a class="dropdown-item nav-link" href="{% url 'doctor:profile' %}" style="color: rgb(0, 0, 0)"> My Profile </a>
+                        {% else %}
+                            <a class="dropdown-item nav-link" href="#" style="color: rgb(0, 0, 0)"> Unknown Profile Type </a>
+                        {% endif %}
+                        <a class="dropdown-item nav-link" href="{% url 'centralapp:logout' %}" style="color: rgb(0, 0, 0)"> Logout </a>
+                    </div>
+                    
+                </li>
+                {% else %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sign Up
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'patient:patientRegister' %}">Patient</a>
+                        <a class="dropdown-item" href="{% url 'doctor:doctorRegister' %}">Doctors</a>
+                        <a class="dropdown-item" href="{% url 'insurance:insuranceRegister' %}">Insurance</a>
+                        <a class="dropdown-item" href="{% url 'medical:medical_register' %}">Medical</a>
+                        <a class="dropdown-item" href="{% url 'labtest:labstaff_register' %}">labtest</a>
+                       
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'centralapp:login' %}">
+                        Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <!-- {% if messages %}
+        {% for message in messages %}
+            <div class='alert alert-danger' role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %} -->
+    <div class="img1">
+        <div class="mainpage-head">
+            Medi-Connect
+        </div>
+        <div class="mainpage-text" style="margin 0 auto;">
+            One place for all your health records.
+        </div>
+        <div class="buttons" style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+            <div class="btn-group">
+                <div class="dropdown">
+                    <a class="btn btn-primary btn-lg dropdown-toggle" href="#" role="button" id="signupDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: red; border-color: red;">
+                        Sign Up
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="signupDropdown">
+                        <a class="dropdown-item" href="{% url 'patient:patientRegister' %}">Patient</a>
+                        <a class="dropdown-item" href="{% url 'doctor:doctorRegister' %}">Doctor</a>
+                        <a class="dropdown-item" href="{% url 'insurance:insuranceRegister' %}">Insurance</a>
+                        <a class="dropdown-item" href="{% url 'medical:medical_register' %}">Medical</a>
+                        <a class="dropdown-item" href="{% url 'billing:accountant_register' %}">Billing</a>
+                        <a class="dropdown-item" href="{% url 'labtest:labstaff_register' %}">labtest</a>
+                        
+                    </div>
+                </div>
+                <a class="btn btn-secondary btn-lg ml-5" href="{% url 'centralapp:login' %}" style="background-color: red; border-color: red;">Login</a>
+                
+            </div>
+        </div>
+    </div>
+    <section class="section section-light">
+        <h2 style="font-family: 'Oswald'; font-size: 33px;">
+            Why a digital health record? <br>
+        </h2>
+        <p style="font-size: 20px;">
+            A digital health record system lets you control and keep track of your records in an online setting,
+            without having you to carry all the cumbersome paperwork around to every doctor that you visit.
+            With digitalisation rapidly transforming our environment, it is important that our health systems evolve with the changes around.
+        </p>
+        <h2 style="font-family: 'Oswald'; font-size: 33px;">
+            Providing a hassle-free environment to manage your health records. <br>
+        </h2>
+        <p style="font-size: 20px;">
+            you'll be able to manage your health records at your fingerprints. we've turned the process of health record management entirely database-driven, making
+            management of these records totally effortless.
+        </p>
+    </section>
+    <div class="img2">
+        <div class="mainpage-text" style="color: white; top: 30%;">
+            Search for a particular disease.
+            <br>
+            <form method="POST" action="{% url 'centralapp:searchBar' %}">
+                {% csrf_token %}
+                <input class="search-field" name="searchBar" type="text" placeholder="Type in the name of a disease..">
+                <button style="padding: 5px; border-radius: 15px;font-family: 'Ubuntu'; font-size: 30px; background-color: rgb(68, 65, 65); color: white;" type="submit">GO !!</button>
+            </form>
+        </div>
+    </div>
+    <section class="section section-light">
+        <h1 class="display" data-aos="fade-down" data-aos-duration="1000">Why Us</h1>
+        <div class="main_container row" data-aos="fade-down" data-aos-duration="1500">
+            <div class="col-lg-6 paragraph features" data-aos="fade-left" data-aos-duration="1000">
+                <ul>
+                    <li>1) Upload your lab test results</li><br>
+                    <li>2) Keep a track of your past and current medication</li>
+                </ul>
+            </div>
+            <div class="col-lg-6 paragraph features" data-aos="fade-right" data-aos-duration="1000">
+                <ul>
+                    <li>3) Enhanced security</li><br>
+                    <li>4) Get more information on the symptoms and causes of any disease</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="img3">
+        <div class="mainpage-text" style="top: 30%;">
+            Drop us a message or a feedback. <br><br>
+            <textarea style="background-color:#eeeeee; border-radius: 15px;padding: 20px ;font-family: 'Grandstander';font-size: 20px;text-align: left; " rows="4" cols="40"
+                name="description">
+            </textarea>
+            <input style="padding: 5px; border-radius: 15px;font-family: 'Ubuntu'; font-size: 20px;" type="submit" value="Submit" />
+        </div>
+    </div>
+    <footer class="page-footer footer font-small mdb-color" style="background:linear-gradient(90deg, #24a19c,#cedebd);">
+        <div class="container text-center text-md-left">
+            <div class="row text-center text-md-left mt-3">
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-2 font-weight-bold">Useful links</h6>
+                    <p>
+                        <a href="{% url 'centralapp:Inside_health_records' %}" class="useful_links">What's in my health record</a><br>
+                        <a href="{% url 'centralapp:patients_how_to_use' %}" class="useful_links">How to use my health record</a><br>
+                        <a href="{% url 'centralapp:FAQS' %}" class="useful_links">FAQs</a>
+                    </p>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-2 font-weight-bold">Contact</h6>
+                    <p>
+                        <i class="fa fa-home mr-3"></i>Jalgaon
+                    </p>
+                    <p>
+                        <i class="fa fa-envelope mr-3 "></i> vinita.patil@gmail.com
+                    </p>
+                    <p>
+                        <i class="fa fa-phone mr-3"></i> +91 0000000000
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-11 col-lg-11">
+                    <p class="text-center">
+                        <strong> Medi-Connect</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js" integrity="sha512-6MCPs9fbSIt6mTpJH2Lbo9Kk71gcgwY85BCqJGP04x+O08W3m/OiKfMiMc4VQKYn+DCtAQwpGumWeD0cACeRsQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TimelineMax.min.js" integrity="sha512-MBKN+F1LTtgzsnhh92u6fEklbJbv13vKI/2BZP0LLR8+IMeqlp0h10R6afWaJv2HIJfTOQkjW0LCPrIFEkZVeg==" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        const hero = document.querySelector(".hero")
+        const slider = document.querySelector(".slider")
+        const headline = document.querySelector(".headline")
+
+        const tl = new TimelineMax();
+
+        tl.fromTo(hero, 1, {height: "0%"}, {height: "100%", ease: Power2.easeInOut})
+        .fromTo(hero,1.2, {width:"100%"}, {width:"80%",ease: Power2.easeInOut})
+        .fromTo(slider,1,{x:"-100%"}, {x:"0%", ease: Power2.easeInOut},"-=1");
+    </script>
+</body>
+</html>

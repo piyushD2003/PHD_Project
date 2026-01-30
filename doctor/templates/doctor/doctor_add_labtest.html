@@ -1,0 +1,18 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+<div class="container py-4">
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-body">
+            <h2 class="text-center mb-4">{{ form_title }}</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <a href="{% url 'doctor:pat_profile' p=patient.id %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

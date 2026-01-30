@@ -1,0 +1,20 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+{% block doctorbase %}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4>Create Medicine Record</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

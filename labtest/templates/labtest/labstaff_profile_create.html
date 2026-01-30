@@ -1,0 +1,99 @@
+{% extends 'labtest/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block labtest_base %}
+<div class="container-fluid py-4" style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg' %}');
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-position: center; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+    <div class="card mx-auto" style="width: 95%; max-width: 700px; padding: 30px;">
+        <div class="card-body" style="padding: 20px;">
+            <h1 style="font-family: Itim,cursive; text-align: center;" class="mb-3 mx-auto">Complete Your Lab Staff Profile</h1>
+
+            <form method="POST" enctype="multipart/form-data" action="{% url 'labtest:create_labstaff_profile' %}">
+                {% csrf_token %}
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="id_full_name">Full Name</label>
+                    <input type="text" class="form-control" name="full_name" id="id_full_name"
+                           value="{{ form.full_name.value|default:request.user.get_full_name }}" placeholder="Enter your full name" required>
+                </div>
+
+                <!-- Qualification -->
+                <div class="form-group">
+                    <label for="id_qualification">Qualification</label>
+                    <input type="text" class="form-control" name="qualification" id="id_qualification"
+                           value="{{ form.qualification.value|default:'' }}" placeholder="Enter your qualification" required>
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                    <label for="id_gender">Gender</label>
+                    {{ form.gender }}
+                </div>
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="id_age">Age</label>
+                    <input type="number" class="form-control" name="age" id="id_age"
+                           value="{{ form.age.value|default:'' }}" placeholder="Enter your age" required>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="id_phone">Phone Number</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">+91</div>
+                        </div>
+                        <input type="tel" class="form-control" name="phone" id="id_phone"
+                               value="{{ form.phone.value|default:'' }}" placeholder="10-digit mobile number"
+                               oninput="this.value = this.value.replace(/\D/g, '').substring(0, 10)" maxlength="10" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="id_email">Contact Email</label>
+                    <input type="email" class="form-control" name="email" id="id_email"
+                           value="{{ form.email.value|default:request.user.email }}" placeholder="Official contact email" required>
+                </div>
+
+                <!-- Address -->
+                <div class="form-group">
+                    <label for="id_address">Address</label>
+                    <textarea class="form-control" name="address" id="id_address" rows="3"
+                              placeholder="Full address of the lab" required>{{ form.address.value }}</textarea>
+                </div>
+
+                <!-- Profile Picture -->
+                <div class="form-group">
+                    <label>Profile Picture (Optional)</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="profilepicinput" name="profile_picture">
+                        <label class="custom-file-label" for="profilepicinput">Choose file...</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100 mt-3" type="submit">Save Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector(".custom-file-input").addEventListener("change", function () {
+        var fileName = this.value.split("\\").pop();
+        var label = this.nextElementSibling;
+        if (label.classList.contains("custom-file-label")) {
+            label.innerHTML = fileName;
+        }
+    });
+</script>
+{% endblock %}

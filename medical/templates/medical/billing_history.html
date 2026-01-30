@@ -1,0 +1,48 @@
+{% extends 'medical/base.html' %}
+{% load static %}
+
+{% block medical_base %}
+<div class="container mt-5">
+    <h2 class="mb-4">Medical Billing History</h2>
+
+    {% if medical_bills %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Amount (₹)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bill in medical_bills %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ bill.patient}}</td>
+                    <td>Dr. {{ bill.doctor.name }}</td>
+                    <td>₹{{ bill.total_amount|floatformat:2 }}</td>
+                    
+                    <td>
+                        <span class="badge 
+                            {% if bill.status == 'Pending' %}badge-warning
+                            {% elif bill.status == 'Paid' %}badge-success
+                            {% elif bill.status == 'Cancelled' %}badge-danger
+                            {% else %}badge-secondary{% endif %}">
+                            {{ bill.paid }}
+                        </span>
+                    </td>
+                    <td>{{ bill.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">No billing records found.</div>
+    {% endif %}
+</div>
+{% endblock %}

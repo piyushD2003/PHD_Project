@@ -1,0 +1,37 @@
+{% extends 'doctor/base.html' %}
+{% block doctorbase %}
+
+<div class="container py-4">
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">{{ lab_test.test_type }}</h3>
+
+            <p><strong>Date:</strong> {{ lab_test.test_date }}</p>
+            <p><strong>Status:</strong> {{ lab_test.get_status_display }}</p>
+            <p><strong>Uploaded By:</strong> {{ lab_test.get_uploaded_by_display }}</p>
+            <p><strong>Finding:</strong><br> {{ lab_test.finding }}</p>
+            <p><strong>Patient:</strong> {{ lab_test.patient.userid.get_full_name }}</p>
+            <p><strong>Doctor:</strong> {{ lab_test.doctor.userid.get_full_name }}</p>
+
+            <p><strong>Clinic:</strong> {{ lab_test.clinic.name }}</p>
+
+            {% if lab_test.diagnosis %}
+                <p><strong>Diagnosis:</strong><br> {{ lab_test.diagnosis }}</p>
+            {% endif %}
+            {% if lab_test.report_file %}
+                <p><strong>Report File:</strong>
+                    <a href="{{ lab_test.report_file.url }}" target="_blank">View Report</a>
+                </p>
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <a href="{% url 'labtest:edit_lab_test' lab_test.id %}" class="btn btn-primary">Edit</a>
+                {% if lab_test.status != 'completed' %}
+                    <a href="{% url 'labtest:mark_test_completed' lab_test.id %}" class="btn btn-success">Mark as Completed</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

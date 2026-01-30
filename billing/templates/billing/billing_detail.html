@@ -1,0 +1,24 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+{% block doctorbase %}
+
+<div class="container-fluid py-5">
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4" style="font-family: Itim, cursive;">Billing Details</h3>
+            <p><strong>Date:</strong> {{ bill.date }}</p>
+            <p><strong>Type:</strong> {{ bill.billing_type }}</p>
+            <p><strong>Amount:</strong> ₹{{ bill.total_amount }}</p>
+            <p><strong>Clinic:</strong> {{ bill.clinic.name }}</p>
+            <p><strong>Status:</strong> 
+                {% if bill.paid %}
+                    <span class="badge bg-success">Paid</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Unpaid</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

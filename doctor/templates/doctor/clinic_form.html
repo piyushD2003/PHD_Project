@@ -1,0 +1,26 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+{% block doctorbase %}
+<div class="container py-5"
+     style="background-image: url('{% static 'patient/Images/medical-backgrnd.jpg' %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;">
+    
+    <div class="card mx-auto" style="max-width: 700px; padding: 20px;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4" style="font-family: Itim, cursive;">Create Clinic</h2>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary w-100">Create Clinic</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

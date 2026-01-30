@@ -1,0 +1,89 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block doctorbase %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Clinic Dashboard</h2>
+
+    <!-- Clinic Info Card (non-clickable) -->
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <h4 class="card-title">Clinic Info</h4>
+            <p><strong>Name:</strong> {{ clinic.name }}</p>
+            <p><strong>Address:</strong> {{ clinic.address }}, {{ clinic.city }}, {{ clinic.state }}, {{ clinic.pincode }}</p>
+            <p><strong>Email:</strong> {{ clinic.email }}</p>
+            <p><strong>Phone:</strong> {{ clinic.phone }}</p>
+        </div>
+    </div>
+
+    <!-- Doctors Block (Clickable) -->
+    <a href="{% url 'doctor:doctor_list' %}" class="text-decoration-none text-dark">
+        <div class="card mb-4 shadow">
+            <div class="card-body">
+                <h4 class="card-title">Doctors</h4>
+                <p>Click to view all registered doctors</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Patients Block (Clickable) -->
+    <a href="{% url 'doctor:PatientList' %}" class="text-decoration-none text-dark">
+        <div class="card mb-4 shadow">
+            <div class="card-body">
+                <h4 class="card-title">Patients</h4>
+                <p>Click to view all registered patients</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Insurances Block (Clickable) -->
+    <a href="{% url 'doctor:view_all_insurances' %}" class="text-decoration-none text-dark">
+        <div class="card mb-4 shadow">
+            <div class="card-body">
+                <h4 class="card-title">Insurances</h4>
+                <p>Click to view all insurance records</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Lab Tests Block (Clickable) -->
+    <a href="{% url 'doctor:view_all_labtests' %}" class="text-decoration-none text-dark">
+        <div class="card mb-4 shadow">
+            <div class="card-body">
+                <h4 class="card-title">Lab Tests</h4>
+                <p>Click to view all lab tests</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Prescriptions Block (Clickable) -->
+    <a href="{% url 'doctor:view_all_prescriptions' %}" class="text-decoration-none text-dark">
+        <div class="card mb-4 shadow">
+            <div class="card-body">
+                <h4 class="card-title">Prescriptions</h4>
+                <p>Click to view all prescriptions</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="{% url 'doctor:view_all_billings' %}" class="text-decoration-none text-dark">
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <h4 class="card-title">Billing Info</h4>
+            <p>Click to view all billing</p>
+        </div>
+    </div>
+</a>
+
+<!-- Medical Block (Clickable) -->
+<a href="{% url 'doctor:view_all_medical' %}" class="text-decoration-none text-dark">
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <h4 class="card-title">Medical</h4>
+            <p>Click to view all medical records</p>
+        </div>
+    </div>
+</a>
+
+</div>
+{% endblock %}

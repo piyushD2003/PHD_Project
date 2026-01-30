@@ -1,0 +1,79 @@
+{% extends 'billing/base.html' %}
+{% load static %}
+
+{% block billing_base %}
+<div class="container-fluid py-4" style="
+     min-height: 100vh; 
+     display: flex; 
+     align-items: center; 
+     justify-content: center;">
+    
+    <div class="card mx-auto" style="width: 95%; max-width: 700px; padding: 30px;">
+        <div class="card-body">
+            <h1 style="font-family: Itim, cursive; text-align: center;" class="mb-4">Complete Your Accountant Profile</h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Display any form errors at the top -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><div class="input-group-text">+91</div></div>
+                        <input type="tel" class="form-control {% if form.phone.errors %}is-invalid{% endif %}" name="phone" id="{{ form.phone.id_for_label }}" placeholder="10-digit mobile number" required>
+                    </div>
+                    {% for error in form.phone.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Contact Email</label>
+                    <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" name="email" id="{{ form.email.id_for_label }}" placeholder="Official contact email" required>
+                    {% for error in form.email.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <!-- Department -->
+                <div class="form-group">
+                    <label for="{{ form.department.id_for_label }}">Department</label>
+                    <input type="text" class="form-control {% if form.department.errors %}is-invalid{% endif %}" name="department" id="{{ form.department.id_for_label }}" placeholder="e.g., Accounts, Finance" required>
+                    {% for error in form.department.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <!-- Address -->
+                <div class="form-group">
+                    <label for="{{ form.address.id_for_label }}">Address</label>
+                    <textarea name="address" class="form-control {% if form.address.errors %}is-invalid{% endif %}" id="{{ form.address.id_for_label }}" rows="3" placeholder="Office Address" required></textarea>
+                    {% for error in form.address.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <!-- Profile Picture -->
+                <div class="form-group">
+                    <label>Profile Picture (Optional)</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="id_profile_pic" name="profile_pic">
+                        <label class="custom-file-label" for="id_profile_pic">Choose file...</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Save Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // To make the filename appear in the file input
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+        var fileName = document.getElementById("id_profile_pic").files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
+</script>
+{% endblock %}

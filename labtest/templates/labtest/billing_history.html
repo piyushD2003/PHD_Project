@@ -1,0 +1,46 @@
+{% extends 'labtest/base.html' %}
+{% load static %}
+
+{% block labtest_base %}
+<div class="container mt-5">
+    <h2 class="mb-4">Lab Test Billing History</h2>
+
+    {% if labtest_bills %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Amount (₹)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bill in labtest_bills %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ bill.patient }}</td>
+                    <td>Dr. {{ bill.doctor.name }}</td>
+                    <td>₹{{ bill.total_amount|floatformat:2 }}</td>
+                    
+                    <td>
+                        <span class="badge 
+                            {% if bill.paid %}badge-success
+                            {% else %}badge-warning{% endif %}">
+                            {% if bill.paid %}Paid{% else %}Pending{% endif %}
+                        </span>
+                    </td>
+                    <td>{{ bill.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">No lab test billing records found.</div>
+    {% endif %}
+</div>
+{% endblock %}

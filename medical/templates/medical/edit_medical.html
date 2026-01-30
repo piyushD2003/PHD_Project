@@ -1,0 +1,85 @@
+{% extends 'medical/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block medical_base %}
+<div class="container-fluid py-4">
+    <div class="card mx-auto" style="width: fit-content;">
+        <div class="card-body">
+            <h1 style="font-family: Itim, cursive; text-align: center;" class="mb-3 mx-auto">Edit Professional Profile</h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Pharmacy Name -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Pharmacy Name" name="pharmacy_name" value="{{ form.pharmacy_name.value }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone and Email -->
+                <div class="form-group row">
+                    <!-- Phone -->
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+91</div>
+                            </div>
+                            <input type="tel" class="form-control" pattern="[1-9]{1}[0-9]{9}" placeholder="Phone Number" name="phone" value="{{ form.phone.value }}">
+                        </div>
+                        <small>{{ form.phone.help_text }}</small>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-sm-5 my-2 mx-auto">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ form.email.value }}">
+                        </div>
+                        <small>{{ form.email.help_text }}</small>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="input-group">
+                            <textarea class="form-control" name="address" placeholder="Address" rows="3">{{ form.address.value }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Picture -->
+                <div class="form-group row">
+                    <div class="col-sm my-2">
+                        <div class="custom-file mb-3">
+                            <input type="file" class="custom-file-input" id="profilepicinput" name="profile_pic">
+                            <label class="custom-file-label" for="profilepicinput">Profile Picture</label>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // Show selected file name
+                    document.querySelector(".custom-file-input").addEventListener("change", function () {
+                        var fileName = this.value.split("\\").pop();
+                        this.nextElementSibling.innerText = fileName;
+                    });
+                </script>
+
+                <!-- Buttons -->
+                <div class="form-group row">
+                    <div class="col-sm-6 my-2 mx-auto">
+                        <button class="btn btn-success btn-block" type="submit">Save</button>
+                    </div>
+                    <div class="col-sm-6 my-2 mx-auto">
+                        <button class="btn btn-secondary btn-block" type="reset">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

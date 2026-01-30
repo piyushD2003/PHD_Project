@@ -1,0 +1,56 @@
+{% extends 'labtest/base.html' %}
+{% load static %}
+
+{% block labtest_base %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Pending Lab Test Requests</h2>
+        <span class="badge badge-primary badge-pill" style="font-size: 1rem;">
+            {{ pending_labtests.count }}
+        </span>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if pending_labtests %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Patient Name</th>
+                                <th scope="col">Test Type</th>
+                                <th scope="col">Test Report</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in pending_labtests %}
+                            <tr>
+                                <td>{{ test.created_at|date:"Y-m-d" }}</td>
+                                <td>{{ test.patient.name }}</td>
+                                <td>{{ test.test_type }}</td>
+                                <td>
+                                    {% if test.test_report %}
+                                        <a href="{{ test.test_report.url }}" target="_blank">View</a>
+                                    {% else %}
+                                        <span class="text-muted">Not Uploaded</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'labtest:labtest_detail' test.id %}" class="btn btn-info btn-sm">View Details</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center" role="alert">
+                    There are no pending lab test requests at the moment.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

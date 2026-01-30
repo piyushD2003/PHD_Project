@@ -1,0 +1,310 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Pacifico" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grandstander" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu" />
+	<link rel="stylesheet" href="{% static 'centralapp/css_files/style.css' %}">
+	<link rel="icon" type="image/png" href="{% static 'centralapp/Images/icon.png' %}"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script src="{% static 'centralapp/js/app.js' %}"></script>
+	<title>पीएचडी प्रकल्प</title>
+</head>
+<body>
+	<script>
+		 AOS.init();
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip()
+			})
+	</script>
+	<nav class="navbar navbar-expand-lg navbar-light sticky-top" id="navstyle" >
+		<a class="navbar-brand" href="{% url 'centralapp:mainpage' %}" style="font-family: Cinzel; font-size: 40px !important; color: white;" >
+			<!-- <img src="{% static 'centralapp/Images/icon.png' %}" width="44" height="44" class="d-inline-block align-top" alt="Logo" loading="lazy"> -->
+			पीएचडी प्रकल्प
+		</a>
+        <a href="mainpage.html">
+            <button id="translateButton" style="font-size: 20px; background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px;">English</button>
+          </a>
+          
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"  aria-expanded="true" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size:18px;width: 60em; ">
+
+			<ul class="navbar-nav ml-auto" id="navbar-list-items">
+				<li class="nav-item dropdown ">
+					<a class="nav-link " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+						तुमच्यासाठी आणि <br>तुमच्या कुटुंबासाठी &#x25BC;
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'centralapp:Inside_health_records' %}">माझ्या आरोग्याच्या नोंदीमध्ये काय आहे </a>
+						<a class="dropdown-item" href="{% url 'centralapp:patients_how_to_use' %}">माझे आरोग्य रेकॉर्ड कसे वापरावे </a>
+					</div>
+				</li>
+
+				<li class="nav-item dropdown ">
+					<a class="nav-link " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+						आरोग्यसेवा <br>व्यावसायिकांसाठी &#x25BC;
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'centralapp:doc_how_to_use' %}">आरोग्य रेकॉर्ड कसे वापरावे</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown ">
+					<a class="nav-link " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+						रोगांबद्दल अधिक <br>जाणून घ्या &#x25BC;
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'centralapp:Aids' %}">एड्स</a>
+						<a class="dropdown-item" href="{% url 'centralapp:Cancer' %}">कर्करोग</a>
+						<a class="dropdown-item" href="{% url 'centralapp:Heart_disorder' %}">हृदयाचे विकार</a>
+						<a class="dropdown-item" href="{% url 'centralapp:Hypertension' %}">उच्च रक्तदाब</a>
+						<a class="dropdown-item" href="{% url 'centralapp:Diabetes' %}">मधुमेह</a>
+
+
+					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link "  href="{% url 'centralapp:FAQS' %}">वारंवार विचारले <br> जाणारे प्रश्न</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link"  href="#about_us">आमच्याबद्दल</a>
+				</li>
+				<!-- <li class="nav-item covidButton">
+					<a class="nav-link" href="{% url 'centralapp:Covid_19' %}">Covid-19 Checkpoints</a>
+				</li> -->
+				
+				{% if user.is_authenticated %}
+				<li class="nav-item dropdown">
+					<a class="nav-link " style="background:#3a8684;color:white;border-radius: 8px;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+						Hey {{request.user.username }}
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item nav-link" href="" style="color: rgb(0, 0, 0)"> My Profile </a>
+						<a class="dropdown-item nav-link" href="{% url 'centralapp:logout' %}" style="color: rgb(0, 0, 0)"> Logout </a>
+					</div>
+				</li>
+				{% else %}
+				<li class="nav-item dropdown">
+					<a class="nav-link " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+						साइन अप करा
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{% url 'patient:patientRegister' %}">रुग्ण</a>
+						<a class="dropdown-item" href="{% url 'doctor:doctorRegister' %}">डॉक्टर</a>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'centralapp:login' %}">लॉगिन करा</a>
+				</li>
+
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+	<!-- {% if messages %}
+				{% for message in messages %}
+			<!-- <script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:2000});</script> -->
+			<div class='alert alert-danger' role="alert">
+				{{message}}
+			</div>
+				{% endfor %}
+	{% endif %} -->
+	<div class="img1">
+		<div class="mainpage-head" style="top: 55%;">
+			पीएचडी प्रकल्प
+		</div>
+		<div class="mainpage-text" style="top: 70%;">
+			तुमच्या सर्व आरोग्य नोंदींसाठी एक ठिकाण.
+		</div>
+		<div class="buttons" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+			<div class="btn-group">
+				<div class="dropdown">
+					<a class="btn btn-primary btn-lg dropdown-toggle" href="#" role="button" id="signupDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: red; border-color: red;">
+						साइन अप करा
+					</a>
+					<div class="dropdown-menu" aria-labelledby="signupDropdown">
+						<a class="dropdown-item" href="{% url 'patient:patientRegister' %}">रुग्ण</a>
+						<a class="dropdown-item" href="{% url 'doctor:doctorRegister' %}">डॉक्टर</a>
+					</div>
+				</div>
+				<a class="btn btn-secondary btn-lg ml-5" href="{% url 'centralapp:login' %}" style="background-color: red; border-color: red;">लॉगिन करा</a>
+			</div>
+		</div>
+	</div>
+	
+	
+	</div>
+	<section class="section section-light">
+		<h2 style="font-family: 'Oswald'; font-size: 33px;">
+			डिजिटल आरोग्य रेकॉर्ड का? <br>
+		</h2>
+		<p style="font-size: 20px;">
+			<!-- Have you ever found it cumbersome to carry all your health records to every doctor that you visit? <br>
+			If yes, then here's the answer. <br> -->
+			डिजिटल हेल्थ रेकॉर्ड सिस्टम तुम्हाला ऑनलाइन सेटिंगमध्ये तुमच्या रेकॉर्डचे नियंत्रण आणि मागोवा ठेवू देते,
+तुम्ही भेट देणाऱ्या प्रत्येक डॉक्टरकडे सर्व अवजड कागदपत्रे घेऊन जाण्याची गरज नाही.
+डिजिटलायझेशनमुळे आपल्या वातावरणात झपाट्याने बदल होत असताना, आपल्या आरोग्य यंत्रणा आजूबाजूच्या बदलांसह विकसित होणे महत्त्वाचे आहे.
+
+		</p>
+		<h2 style="font-family: 'Oswald'; font-size: 33px;">
+			तुमचे आरोग्य रेकॉर्ड व्यवस्थापित करण्यासाठी त्रासमुक्त वातावरण प्रदान करणे. <br>
+		</h2>
+		<p style="font-size: 20px;">
+			तुम्ही तुमच्या बोटांच्या ठशांवर तुमचे आरोग्य रेकॉर्ड व्यवस्थापित करण्यात सक्षम व्हाल. आम्ही हेल्थ रेकॉर्ड मॅनेजमेंटची प्रक्रिया पूर्णपणे डेटाबेस-आधारित बनवली आहे
+या नोंदींचे व्यवस्थापन पूर्णपणे सहज शक्य नाही.
+		</p>
+
+	</section>
+
+	<div class="img2" >
+		<div class="mainpage-text" style="color: white; top: 30%;">
+            विशिष्ट रोग शोधा.
+				<br>
+				<form method="POST" action="{% url 'centralapp:searchBar' %}">
+					{% csrf_token %}
+				<input class="search-field" name="searchBar" type="text" placeholder="रोगाचे नाव टाइप करा..">
+				<button style="padding: 5px; border-radius: 15px;font-family: 'Ubuntu'; font-size: 30px; background-color: rgb(68, 65, 65); color: white;" type="submit">जा !!</button>
+			   </form>
+		</div>
+
+	</div>
+	<section class="section section-light" >
+		<h1 class="display" data-aos="fade-down" data-aos-duration="1000">आम्हाला का</h1>
+		<div class="main_container row" data-aos="fade-down" data-aos-duration="1500">
+			<div class="col-lg-6 paragraph features" data-aos="fade-left" data-aos-duration="1000">
+				<ul>
+					<li>1) तुमचे प्रयोगशाळा चाचणी परिणाम अपलोड करा</li><br>
+					<li>2) तुमच्या भूतकाळातील आणि वर्तमान औषधांचा मागोवा ठेवा</li>
+				</ul>
+			</div>
+			<div class="col-lg-6 paragraph features" data-aos="fade-right" data-aos-duration="1000">
+				<ul>
+					<li>3) वर्धित सुरक्षा</li><br>
+					<li>4) कोणत्याही रोगाची लक्षणे आणि कारणे याबद्दल अधिक माहिती मिळवा</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	
+	<div class="img3">
+		<div class="mainpage-text" style="top: 30%;">
+			आम्हाला संदेश किंवा प्रतिक्रिया द्या. <br><br>
+			<textarea style="background-color:#eeeeee; border-radius: 15px;padding: 20px ;font-family: 'Grandstander';font-size: 20px;text-align: left;" rows="4" cols="40"
+				name="description">
+						 </textarea>
+				<input style="padding: 5px; border-radius: 15px;font-family: 'Ubuntu'; font-size: 20px;" type="submit" value="प्रस्तुत करणे" />
+		</div>
+	</div>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<!--<script>
+		document.getElementById("user").addEventListener("click",function()
+		{
+			document.querySelector(".popup").style.display="flex";
+		})
+	</script>-->
+
+
+
+	<footer class="page-footer footer font-small mdb-color" style="background:linear-gradient(90deg, #24a19c,#cedebd);">
+
+		<!-- Footer Links -->
+		<div class="container text-center text-md-left">
+
+			<!-- Footer links -->
+			<div class="row text-center text-md-left mt-3">
+
+				<!-- Grid column -->
+				<hr class="w-100 clearfix d-md-none">
+				<div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+					<h6 class="text-uppercase mb-2 font-weight-bold" >उपयुक्त दुवे</h6>
+					<p>
+						<a href="{% url 'centralapp:Inside_health_records' %}" class="useful_links">माझ्या आरोग्याच्या नोंदीमध्ये काय आहे</a><br>
+						<a href="{% url 'centralapp:patients_how_to_use' %}" class="useful_links">माझे आरोग्य रेकॉर्ड कसे वापरावे</a><br>
+						<a href="{% url 'centralapp:FAQS' %}" class="useful_links">वारंवार विचारले जाणारे प्रश्न</a>
+					</p>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+
+				<hr class="w-100 clearfix d-md-none">
+
+				<!-- Grid column -->
+
+			
+				<!-- Grid column -->
+				<hr class="w-100 clearfix d-md-none">
+
+				<!-- Grid column -->
+				<div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+					<h6 class="text-uppercase mb-2 font-weight-bold">संपर्क करा</h6>
+                    <p>
+                        <i class="fa fa-home mr-3"></i>जळगाव
+                    </p>
+                    <p>
+                        <i class="fa fa-envelope mr-3 "></i> vinita.patil@gmail.com
+                    </p>
+                    <p>
+                        <i class="fa fa-phone mr-3"></i> +91 0000000000
+                    </p>
+
+				</div>
+				<!-- Grid column -->
+
+			</div>
+			<!-- Footer links -->
+
+			<hr>
+
+			<!-- Grid row -->
+			<div class="row d-flex align-items-center">
+				<!-- Grid column -->
+				<div class="col-md-11 col-lg-11">
+					<!--Copyright-->
+					<p class="text-center">
+						<strong> पीएचडी प्रकल्प</strong>
+					</p>
+				</div>
+			</div>
+			<!-- Grid row -->
+
+		</div>
+		<!-- Footer Links -->
+	</footer>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js" integrity="sha512-6MCPs9fbSIt6mTpJH2Lbo9Kk71gcgwY85BCqJGP04x+O08W3m/OiKfMiMc4VQKYn+DCtAQwpGumWeD0cACeRsQ==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TimelineMax.min.js" integrity="sha512-MBKN+F1LTtgzsnhh92u6fEklbJbv13vKI/2BZP0LLR8+IMeqlp0h10R6afWaJv2HIJfTOQkjW0LCPrIFEkZVeg==" crossorigin="anonymous"></script>
+	<!-- <script src="app.js"></script> -->
+	<script type="text/javascript">
+		const hero= document.querySelector(".hero")
+		const slider= document.querySelector(".slider")
+		const headline= document.querySelector(".headline")
+
+		const tl= new TimelineMax();
+
+		tl.fromTo(hero, 1, {height: "0%"}, {height: "100%", ease: Power2.easeInOut})
+		.fromTo(hero,1.2, {width:"100%"}, {width:"80%",ease: Power2.easeInOut})
+		.fromTo(slider,1,{x:"-100%"}, {x:"0%", ease: Power2.easeInOut},"-=1");
+
+	</script>
+</body>
+</html>

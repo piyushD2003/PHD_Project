@@ -1,0 +1,112 @@
+{% extends 'insurance/base.html' %}
+{% block insurance_base %}
+<div class="container mt-4">
+    <!-- Display Messages -->
+    <!-- {% if messages %}{% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %} -->
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Claim Details for Policy #{{ insurance.policy_number }}</h4>
+            <p>Patient: {{ insurance.patient.name }}</p>
+            <p>Status: <span class="badge badge-info">{{ insurance.insurance_status }}</span></p>
+        </div>
+        <div class="card-body">
+            
+            <!-- ====== ACTION BUTTONS (Approve/Reject) ====== -->
+            {% if insurance.insurance_status == 'Pending' %}
+            <div class="mb-4 p-3 border rounded">
+                <h5>Actions</h5>
+                <p>Approve this claim to enable bill payments, or reject it.</p>
+                <form action="{% url 'insurance:update_claim_status' insurance.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" name="status" value="Approved" class="btn btn-success">Approve Claim</button>
+                    <button type="submit" name="status" value="Rejected" class="btn btn-danger">Reject Claim</button>
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- ====== ASSOCIATED BILLS SECTION ====== -->
+            <h5>Associated Bills</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.date }}</td>
+                        <td>{{ bill.get_billing_type_display }}</td>
+                        <td>₹{{ bill.total_amount|floatformat:2 }}</td>
+                        <td>{% if bill.paid %}<span class="badge badge-success">Paid</span>{% else %}<span class="badge badge-warning">Unpaid</span>{% endif %}</td>
+                        <td>
+                            <form action="{% url 'insurance:pay_bill' bill.pk %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name='insurance_pk' value="{{ insurance.pk }}">
+                                <button type="submit" class="btn btn-sm btn-primary">Pay Bill</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No bills have been assigned to this claim yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Review Insurance Claim: {{ insurance.policy_number }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <!-- Patient Information Column -->
+            <div class="col-md-6">
+                <h4>Patient Details</h4>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Name:</strong> {{ insurance.patient.name }}</li>
+                    <li class="list-group-item"><strong>Age:</strong> {{ insurance.patient.age }}</li>
+                    <li class="list-group-item"><strong>Phone:</strong> {{ insurance.patient.phone }}</li>
+                    <li class="list-group-item"><strong>Address:</strong> {{ insurance.patient.address }}</li>
+                </ul>
+            </div>
+
+            <!-- Insurance Policy Information Column -->
+            <div class="col-md-6">
+                <h4>Policy Details</h4>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Provider:</strong> {{ insurance.insurance_provider.company_name }}</li>
+                    <li class="list-group-item"><strong>Policy Type:</strong> {{ insurance.policy_type }}</li>
+                    <li class="list-group-item"><strong>Valid From:</strong> {{ insurance.valid_from|date:"d M, Y" }}</li>
+                    <li class="list-group-item"><strong>Valid To:</strong> {{ insurance.valid_to|date:"d M, Y" }}</li>
+                    <li class="list-group-item"><strong>Coverage Amount:</strong> ${{ insurance.coverage_amount|floatformat:2 }}</li>
+                    <li class="list-group-item"><strong>Current Status:</strong> {{ insurance.insurance_status }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Policy Document Section -->
+        <h4>Policy Document</h4>
+        {% if claim.policy_document %}
+            <a href="{{ claim.policy_document.url }}" class="btn btn-info" target="_blank">View Uploaded Document</a>
+        {% else %}
+            <p class="text-muted">No document was uploaded for this policy.</p>
+        {% endif %}
+
+    <!-- Action Buttons in a Form -->
+    <div class="card-footer text-right">
+        <form method="POST">
+            {% csrf_token %}
+            <!-- These buttons submit the form. The 'name' and 'value' are sent to the view. -->
+            <button type="submit" name="action" value="approve" class="btn btn-success">Approve Claim</button>
+            <button type="submit" name="action" value="reject" class="btn btn-danger">Reject Claim</button>
+            <a href="{% url 'insurance:dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
