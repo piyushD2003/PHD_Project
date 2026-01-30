@@ -1,0 +1,113 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-handshake"></i> Matched Donations
+            </h2>
+        </div>
+    </div>
+
+    <!-- Info Card -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="alert alert-info" style="background: #e7f3f0; border-left: 5px solid #24a19c;">
+                <i class="fas fa-info-circle"></i>
+                <strong>How it Works:</strong> Your organ donations have been matched with patients who need them. 
+                You can now view their contact information and arrange the transplant directly.
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center" style="border-left: 5px solid #24a19c;">
+                <div class="card-body">
+                    <h5>Matched Donations</h5>
+                    <h3 style="color: #24a19c;">{{ total_matched }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matched Donations List -->
+    {% if matched_donations %}
+    <div class="row">
+        {% for donation in matched_donations %}
+        <div class="col-md-6 mb-4">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-top: 4px solid #24a19c;">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+                    <h5 class="mb-0">
+                        <i class="fas fa-heartbeat"></i> 
+                        {{ donation.organ_type }}
+                        {% if donation.blood_type %}
+                        <span class="badge badge-light">{{ donation.blood_type }}</span>
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 style="color: #24a19c;"><i class="fas fa-vial"></i> Your Donation</h6>
+                            <p><strong>Status:</strong> <span class="badge badge-success">Matched</span></p>
+                            <p><strong>Age at Donation:</strong> {{ donation.age_at_donation }}</p>
+                            <p><strong>Health Condition:</strong><br>
+                                <small>{{ donation.health_condition|truncatewords:15 }}</small>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 style="color: #24a19c;"><i class="fas fa-user-patient"></i> Matched Patient</h6>
+                            {% if donation.matched_request %}
+                            <p><strong>Urgency:</strong> 
+                                <span class="badge badge-{{ donation.matched_request.urgency }}">
+                                    {{ donation.matched_request.get_urgency_display }}
+                                </span>
+                            </p>
+                            <p><strong>Patient Age:</strong> {{ donation.matched_request.age_at_request }}</p>
+                            <p><strong>Medical Need:</strong><br>
+                                <small>{{ donation.matched_request.medical_condition|truncatewords:15 }}</small>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'organ_donation:recipient_info' donation.id %}" 
+                           class="btn btn-primary btn-sm flex-fill" style="background: #24a19c; border: none;">
+                            <i class="fas fa-eye"></i> View Recipient Info
+                        </a>
+                        <a href="{% url 'organ_donation:confirm_transplant' donation.id %}" 
+                           class="btn btn-success btn-sm flex-fill">
+                            <i class="fas fa-check"></i> Confirm Transplant
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer" style="background: #f8f9fa; font-size: 0.85rem; color: #666;">
+                    Matched on: {{ donation.updated_at|date:"M d, Y" }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; padding: 40px;">
+                <i class="fas fa-search fa-3x mb-3" style="color: #ccc;"></i>
+                <h5 style="color: #666;">No Matched Donations</h5>
+                <p class="text-muted">You don't have any matched donations yet.</p>
+                <a href="{% url 'organ_donation:my_donations' %}" class="btn btn-primary" style="background: #24a19c; border: none;">
+                    <i class="fas fa-arrow-left"></i> Back to My Donations
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

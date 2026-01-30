@@ -1,4 +1,8 @@
 env
-
 **/__pycache__/
 **/migrations/00*.py
+.venv
+.env
+__pycache__/
+tesseract-ocr-w64-setup-5.3.0.20221222.exe
+venv

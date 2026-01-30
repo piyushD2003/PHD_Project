@@ -1,0 +1,130 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-hands-helping"></i> Request an Organ
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+                    <h5 class="mb-0">Organ Request Form</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.organ_type.id_for_label }}">
+                                <strong>{{ form.organ_type.label }} <span style="color: red;">*</span></strong>
+                            </label>
+                            {{ form.organ_type }}
+                            {% if form.organ_type.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.organ_type.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.blood_type.id_for_label }}">
+                                <strong>{{ form.blood_type.label }}</strong>
+                            </label>
+                            {{ form.blood_type }}
+                            {% if form.blood_type.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.blood_type.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.age_at_request.id_for_label }}">
+                                <strong>{{ form.age_at_request.label }} <span style="color: red;">*</span></strong>
+                            </label>
+                            {{ form.age_at_request }}
+                            {% if form.age_at_request.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.age_at_request.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.urgency.id_for_label }}">
+                                <strong>{{ form.urgency.label }}</strong>
+                            </label>
+                            {{ form.urgency }}
+                            {% if form.urgency.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.urgency.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.medical_condition.id_for_label }}">
+                                <strong>{{ form.medical_condition.label }} <span style="color: red;">*</span></strong>
+                            </label>
+                            {{ form.medical_condition }}
+                            {% if form.medical_condition.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.medical_condition.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.needed_by.id_for_label }}">
+                                <strong>{{ form.needed_by.label }}</strong>
+                            </label>
+                            {{ form.needed_by }}
+                            <small class="form-text text-muted">When do you need this organ?</small>
+                            {% if form.needed_by.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.needed_by.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.notes.id_for_label }}">
+                                <strong>{{ form.notes.label }}</strong>
+                            </label>
+                            {{ form.notes }}
+                            {% if form.notes.errors %}
+                                <div class="alert alert-danger mt-2">{{ form.notes.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" style="background: #24a19c; width: 100%; padding: 10px;">
+                                <i class="fas fa-check"></i> Submit Request
+                            </button>
+                            <a href="{% url 'organ_donation:my_requests' %}" class="btn btn-secondary mt-2" style="width: 100%; padding: 10px;">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-control:focus {
+        border-color: #24a19c;
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(36, 161, 156, 0.25);
+    }
+
+    label {
+        color: #333;
+        margin-bottom: 8px;
+    }
+</style>
+{% endblock %}

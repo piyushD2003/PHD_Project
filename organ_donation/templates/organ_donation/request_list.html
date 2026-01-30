@@ -1,0 +1,142 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-hands-helping"></i> Pending Organ Requests
+            </h2>
+        </div>
+        <div class="col-md-4">
+            <form method="get" class="form-inline float-right">
+                <select name="urgency" class="form-control form-control-sm mr-2">
+                    <option value="">All Urgencies</option>
+                    <option value="critical" {% if request.GET.urgency == 'critical' %}selected{% endif %}>Critical</option>
+                    <option value="high" {% if request.GET.urgency == 'high' %}selected{% endif %}>High</option>
+                    <option value="medium" {% if request.GET.urgency == 'medium' %}selected{% endif %}>Medium</option>
+                    <option value="low" {% if request.GET.urgency == 'low' %}selected{% endif %}>Low</option>
+                </select>
+                <button type="submit" class="btn btn-sm btn-primary" style="background: #24a19c;">Filter</button>
+            </form>
+        </div>
+    </div>
+
+    {% if requests %}
+    <div class="row">
+        {% for request in requests %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #3a8684);">
+                    <h5 class="mb-0">
+                        <i class="fas fa-hands-helping"></i> 
+                        {{ request.organ_type }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Blood Type:</strong> 
+                        {% if request.blood_type %}
+                            <span class="badge badge-info">{{ request.blood_type }}</span>
+                        {% else %}
+                            <span class="badge badge-secondary">Not specified</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Requester Age:</strong> {{ request.age_at_request }} years</p>
+                    <p><strong>Urgency:</strong> 
+                        {% if request.urgency == 'critical' %}
+                            <span class="badge badge-danger">Critical</span>
+                        {% elif request.urgency == 'high' %}
+                            <span class="badge badge-warning">High</span>
+                        {% elif request.urgency == 'medium' %}
+                            <span class="badge badge-info">Medium</span>
+                        {% else %}
+                            <span class="badge badge-success">Low</span>
+                        {% endif %}
+                    </p>
+                    <hr>
+                    <p><strong>Medical Condition:</strong><br>
+                        <small>{{ request.medical_condition|truncatewords:20 }}</small>
+                    </p>
+                    <p><strong>Requested:</strong> {{ request.created_at|date:"d M Y" }}</p>
+                </div>
+                <div class="card-footer" style="background: #f8f9fa;">
+                    <a href="{% url 'organ_donation:request_detail' request.pk %}" class="btn btn-block btn-primary" style="background: #24a19c;">
+                        <i class="fas fa-eye"></i> View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        <h4 class="alert-heading">No Pending Requests</h4>
+        <p>Currently there are no pending organ requests matching your criteria.</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .card {
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+
+    .badge {
+        padding: 8px 12px;
+    }
+
+    .pagination .page-link {
+        color: #24a19c;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #24a19c;
+        border-color: #24a19c;
+    }
+</style>
+{% endblock %}

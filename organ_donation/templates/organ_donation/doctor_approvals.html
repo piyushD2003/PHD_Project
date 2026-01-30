@@ -1,0 +1,102 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-clipboard-check"></i> Pending Organ Match Approvals
+            </h2>
+        </div>
+    </div>
+
+    <!-- Doctor Assigned Approvals -->
+    {% if doctor_approvals %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h4 class="mb-3">Your Assigned Approvals</h4>
+        </div>
+    </div>
+    <div class="row mb-4">
+        {% for approval in doctor_approvals %}
+        <div class="col-md-6 mb-4">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #3a8684);">
+                    <h5 class="mb-0">
+                        {{ approval.donation.organ_type }} - Match #{{ approval.id }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Donation:</strong> {{ approval.donation.donor.user.get_full_name }}</p>
+                    <p><strong>Request:</strong> {{ approval.request.requester.user.get_full_name }}</p>
+                    <p><strong>Organ:</strong> {{ approval.donation.organ_type }}</p>
+                    <p><strong>Status:</strong> <span class="badge badge-warning">{{ approval.get_status_display }}</span></p>
+                    <p><strong>Created:</strong> {{ approval.created_at|date:"d M Y H:i" }}</p>
+                </div>
+                <div class="card-footer" style="background: #f8f9fa;">
+                    <a href="{% url 'organ_donation:approve_match' approval.pk %}" class="btn btn-block btn-primary" style="background: #24a19c;">
+                        <i class="fas fa-check"></i> Review & Approve/Reject
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-info-circle"></i> You have no assigned approvals currently.
+    </div>
+    {% endif %}
+
+    <!-- Unassigned Approvals -->
+    {% if unassigned_approvals %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h4 class="mb-3">Available Approvals (Unassigned)</h4>
+        </div>
+    </div>
+    <div class="row">
+        {% for approval in unassigned_approvals %}
+        <div class="col-md-6 mb-4">
+            <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card-header" style="background: linear-gradient(90deg, #ffc107, #ff9800);">
+                    <h5 class="mb-0">
+                        {{ approval.donation.organ_type }} - Match #{{ approval.id }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Donation:</strong> {{ approval.donation.donor.user.get_full_name }}</p>
+                    <p><strong>Request:</strong> {{ approval.request.requester.user.get_full_name }}</p>
+                    <p><strong>Organ:</strong> {{ approval.donation.organ_type }}</p>
+                    <p><strong>Status:</strong> <span class="badge badge-warning">{{ approval.get_status_display }}</span></p>
+                    <p><strong>Created:</strong> {{ approval.created_at|date:"d M Y H:i" }}</p>
+                </div>
+                <div class="card-footer" style="background: #f8f9fa;">
+                    <a href="{% url 'organ_donation:approve_match' approval.pk %}" class="btn btn-block btn-primary" style="background: #24a19c;">
+                        <i class="fas fa-check"></i> Claim & Review
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle"></i> All approvals have been assigned!
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .card {
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    }
+</style>
+{% endblock %}

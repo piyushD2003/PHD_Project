@@ -1,0 +1,111 @@
+{% extends 'organ_donation/base.html' %}
+{% load static %}
+
+{% block organ_donation_content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 style="color: #24a19c; border-bottom: 3px solid #24a19c; padding-bottom: 10px;">
+                <i class="fas fa-history"></i> Organ Transactions
+            </h2>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center" style="border-left: 5px solid #24a19c;">
+                <div class="card-body">
+                    <h5>Total Transactions</h5>
+                    <h3 style="color: #24a19c;">{{ total_transactions }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center" style="border-left: 5px solid #28a745;">
+                <div class="card-body">
+                    <h5>Completed</h5>
+                    <h3 style="color: #28a745;">{{ completed_transactions }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-info mb-0">
+                <h6 class="mb-1"><i class="fas fa-info-circle"></i> Transaction Status</h6>
+                <p class="mb-0">Track the status of all organ transplant transactions and procedures.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    {% if transactions %}
+    <div class="card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div class="card-header" style="background: linear-gradient(90deg, #24a19c, #cedebd);">
+            <h5 class="mb-0">Transaction History</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead style="background: #f8f9fa;">
+                    <tr>
+                        <th>Organ</th>
+                        <th>Donor</th>
+                        <th>Recipient</th>
+                        <th>Status</th>
+                        <th>Doctor</th>
+                        <th>Created Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td><strong>{{ transaction.organ_type }}</strong></td>
+                        <td>{{ transaction.donor.user.get_full_name }}</td>
+                        <td>{{ transaction.recipient.user.get_full_name }}</td>
+                        <td>
+                            {% if transaction.status == 'pending' %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% elif transaction.status == 'in_progress' %}
+                                <span class="badge badge-info">In Progress</span>
+                            {% elif transaction.status == 'completed' %}
+                                <span class="badge badge-success">Completed</span>
+                            {% else %}
+                                <span class="badge badge-danger">{{ transaction.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ transaction.assigned_doctor.user.get_full_name|default:"Not assigned" }}</td>
+                        <td>{{ transaction.created_at|date:"d M Y" }}</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-info" data-toggle="tooltip" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        <h4 class="alert-heading">No Transactions</h4>
+        <p>There are currently no organ transactions.</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: #f0f0f0;
+    }
+
+    .badge {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .card {
+        border: none;
+    }
+</style>
+{% endblock %}
